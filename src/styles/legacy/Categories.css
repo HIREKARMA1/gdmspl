@@ -42,8 +42,6 @@
   letter-spacing: 2px;
   margin-bottom: 30px;
   width: fit-content;
-  margin-left: auto;
-  margin-right: auto;
   transition: color 0.3s ease;
 }
 
@@ -118,7 +116,9 @@
 
 .category-info {
   display: flex;
-  align-items: baseline;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
   gap: 30px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding-bottom: 20px;

@@ -1,0 +1,167 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+@import "../styles/design-tokens.css";
+
+@layer base {
+  :root {
+    --font-outfit: 'Outfit', system-ui, sans-serif;
+    --font-inter: 'Inter', system-ui, sans-serif;
+  }
+
+  * {
+    @apply box-border;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply min-h-screen overflow-x-hidden bg-canvas font-sans text-charcoal antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply leading-tight font-bold text-charcoal;
+  }
+
+  a {
+    @apply text-inherit no-underline transition-colors duration-fast;
+  }
+
+  button {
+    @apply cursor-pointer border-0 bg-transparent;
+    font-family: inherit;
+  }
+
+  ul {
+    @apply list-none;
+  }
+}
+
+@layer components {
+  .container-app {
+    @apply mx-auto max-w-[1200px] px-6;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--spacing-6);
+    padding-right: var(--spacing-6);
+  }
+
+  .container-fluid {
+    @apply w-full px-8 max-md:px-4;
+  }
+
+  .glass {
+    @apply border border-black/10 bg-white/70 backdrop-blur-xl;
+  }
+
+  .aurora-text {
+    color: #4c0000;
+    background: linear-gradient(90deg, #4c0000 0%, #6b1515 18%, #787878 38%, #8b0000 58%, #3d3d3d 78%, #4c0000 100%);
+    background-size: 100% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 18px rgba(76, 0, 0, 0.4));
+  }
+
+  .hero-overlay {
+    @apply absolute inset-0;
+    background: radial-gradient(circle at center, rgba(252, 252, 249, 0.1) 0%, rgba(252, 252, 249, 0.3) 100%);
+  }
+
+  .nav-anchor::after {
+    content: "";
+    @apply absolute bottom-[-5px] left-0 h-px w-0 bg-charcoal transition-all duration-300;
+  }
+
+  .nav-anchor:hover::after {
+    @apply w-full;
+  }
+
+  /* Bento grid */
+  .projects-track {
+    display: grid;
+    grid-template-rows: repeat(2, 35vh);
+    grid-auto-flow: column;
+    gap: 2rem;
+    padding: 0 10vw 0 8vw;
+    align-items: center;
+    will-change: transform;
+  }
+
+  .bento-hero {
+    grid-column: span 2;
+    grid-row: span 2;
+    width: 50vw;
+    height: calc(70vh + 2rem);
+  }
+
+  .bento-wide {
+    grid-column: span 2;
+    width: 45vw;
+    height: 35vh;
+  }
+
+  .bento-tall {
+    grid-row: span 2;
+    width: 25vw;
+    height: calc(70vh + 2rem);
+  }
+
+  .bento-standard {
+    width: 22vw;
+    height: 35vh;
+  }
+
+  .explore-column {
+    grid-row: 1 / span 2;
+    width: 26vw;
+    height: calc(70vh + 2rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 1rem;
+    margin-right: -2vw;
+  }
+
+  @media (max-width: 1024px) {
+    .projects-track {
+      grid-template-rows: repeat(2, 30vh);
+    }
+    .bento-hero { width: 70vw; }
+    .bento-wide { width: 60vw; }
+    .bento-tall { width: 40vw; }
+    .bento-standard { width: 35vw; }
+  }
+
+  @media (max-width: 768px) {
+    .projects-track {
+      display: flex;
+      flex-direction: column;
+      padding: 2rem;
+      transform: none !important;
+    }
+    .bento-hero, .bento-wide, .bento-tall, .bento-standard, .explore-column {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4/3;
+    }
+  }
+}
+
+@import "../styles/legacy/Services.css";
+@import "../styles/legacy/Team.css";
+@import "../styles/legacy/Contact.css";
+@import "../styles/legacy/Careers.css";
+@import "../styles/legacy/Categories.css";
+@import "../styles/legacy/ProjectsPage.css";
+@import "../styles/legacy/ProjectDetail.css";
+@import "../styles/legacy/TeamPage.css";

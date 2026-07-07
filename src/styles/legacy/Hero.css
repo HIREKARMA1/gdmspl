@@ -1,0 +1,147 @@
+.hero-scroll-container {
+  position: relative;
+  height: 300vh;
+  /* Captures 300% of viewport height as vertical scroll for the branding animation */
+  background: var(--color-bg-primary);
+}
+
+.hero-sticky-inner {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: slowZoom 30s ease-in-out infinite alternate;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center,
+      rgba(252, 252, 249, 0.1) 0%,
+      rgba(252, 252, 249, 0.3) 100%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: visible;
+  text-align: center;
+  will-change: transform, opacity, filter;
+  transform-style: preserve-3d;
+}
+
+.branding-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-2);
+  width: 100%;
+  max-width: 100%;
+  overflow: visible;
+  text-align: center;
+}
+
+/* Rest of the styles (branding-primary, aurora-text, etc.) remain as they were */
+.brand-primary {
+  font-size: clamp(2.5rem, 9.5vw, 8.5rem) !important;
+  font-weight: 300 !important;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: 0.05em !important;
+  margin: 0;
+  display: inline-block;
+  width: fit-content;
+  max-width: none;
+  text-align: center;
+  white-space: nowrap;
+  overflow: visible;
+}
+
+.brand-secondary-well {
+  width: 100%;
+  max-width: 100%;
+}
+
+.brand-secondary {
+  font-size: clamp(0.7rem, 1.85vw, 1.65rem) !important;
+  font-weight: 400 !important;
+  letter-spacing: clamp(0.06em, 0.12vw, 0.16em) !important;
+  text-transform: uppercase !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.6) !important;
+  margin-top: 1.5vw !important;
+  margin-bottom: 0 !important;
+  max-width: 100%;
+  line-height: 1.35;
+  white-space: nowrap !important;
+  text-align: center !important;
+}
+
+.aurora-text {
+  color: #4c0000;
+  background: linear-gradient(90deg,
+      #4c0000 0%,
+      #6b1515 18%,
+      #787878 38%,
+      #8b0000 58%,
+      #3d3d3d 78%,
+      #4c0000 100%);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5))
+    drop-shadow(0 0 18px rgba(76, 0, 0, 0.4));
+}
+
+@keyframes slowZoom {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.15);
+  }
+}
+
+@media (max-width: 768px) {
+  .brand-primary {
+    font-size: clamp(2rem, 11vw, 4rem) !important;
+    letter-spacing: 0.04em !important;
+  }
+
+  .brand-secondary {
+    font-size: clamp(0.65rem, 2.8vw, 1rem) !important;
+    letter-spacing: 0.1em !important;
+    white-space: normal !important;
+  }
+}

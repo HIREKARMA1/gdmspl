@@ -95,7 +95,7 @@ const Contact = () => {
                         <motion.div variants={itemVariants} className="contact-header">
                             <h2 className="section-title">Let's Build <span>Something Extraordinary</span></h2>
                             <p className="section-subtitle">
-                                Whether you're planning a residential masterpiece or a commercial landmark, our team is ready to bring your vision to life in {selectedLocation}.
+                                Whether you're planning a residential masterpiece or a commercial landmark, our team is ready to bring your vision .
                             </p>
                         </motion.div>
 
@@ -175,7 +175,7 @@ const Contact = () => {
                     >
                         <div className="form-header">
                             <MessageSquare className="header-icon" />
-                            <h3>Send a Message</h3>
+                            <h3>Send a Messages</h3>
                             <p>We'll get back to you within 24 hours.</p>
                         </div>
 

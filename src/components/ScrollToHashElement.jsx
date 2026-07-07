@@ -1,23 +1,25 @@
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+"use client";
 
-const ScrollToHashElement = () => {
-  const { hash } = useLocation();
+import { useEffect } from "react";
+import { usePathname } from "next/navigation";
+
+export default function ScrollToHashElement() {
+  const pathname = usePathname();
 
   useEffect(() => {
+    const hash = window.location.hash;
     if (hash) {
-      const element = document.getElementById(hash.replace("#", ""));
+      const id = hash.replace("#", "");
+      const element = document.getElementById(id);
       if (element) {
         setTimeout(() => {
           element.scrollIntoView({ behavior: "smooth" });
         }, 100);
       }
     } else {
-        window.scrollTo(0, 0);
+      window.scrollTo(0, 0);
     }
-  }, [hash]);
+  }, [pathname]);
 
   return null;
-};
-
-export default ScrollToHashElement;
+}

@@ -73,7 +73,7 @@ const Categories = () => {
                 transition={{ duration: 0.5 }}
               >
                 <div className="category-info">
-                  <span className="category-index">VIEWING SECTOR</span>
+                  {/* <span className="category-index">VIEWING SECTORs</span> */}
                   <h2 className="category-name">{activeCategory.name}</h2>
                 </div>
 

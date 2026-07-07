@@ -81,8 +81,6 @@
   background-color: #1a1a1a;
   border: 1px solid #333333;
   color: #ffffff;
-  font-weight: 600;
-  font-size: var(--font-size-sm);
   transition: all var(--transition-normal);
 }
 

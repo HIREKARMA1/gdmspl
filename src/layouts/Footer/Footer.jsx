@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import SocialLinks from '../../components/ui/SocialLinks';
 import './Footer.css';
 
 const Footer = () => {
@@ -14,7 +15,7 @@ const Footer = () => {
               spaces that inspire and elevate human experiences.
             </p>
             <div className="footer-contact-info">
-              <p>Email: info@gdmspl.com</p>
+              <p>Email: mail@gdmspl.com</p>
               <p>Phone: +91 98765 43210</p>
               <p>Presence: Delhi, Mumbai, Nepal, Muscat</p>
             </div>
@@ -43,12 +44,7 @@ const Footer = () => {
 
           <div className="footer-social">
             <h4>Follow Us</h4>
-            <div className="social-links">
-              <a href="#" aria-label="Facebook">FB</a>
-              <a href="#" aria-label="Instagram">IG</a>
-              <a href="#" aria-label="LinkedIn">IN</a>
-              <a href="#" aria-label="Twitter">X</a>
-            </div>
+            <SocialLinks />
           </div>
 
         </div>

@@ -1,0 +1,144 @@
+.hero-scroll-container {
+  position: relative;
+  height: 300vh;
+  /* Captures 300% of viewport height as vertical scroll for the branding animation */
+  background: var(--color-bg-primary);
+}
+
+.hero-sticky-inner {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: slowZoom 30s ease-in-out infinite alternate;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center,
+      rgba(252, 252, 249, 0.1) 0%,
+      rgba(252, 252, 249, 0.3) 100%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  will-change: transform, opacity, filter;
+  transform-style: preserve-3d;
+}
+
+.branding-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  align-items: center;
+}
+
+/* Rest of the styles (branding-primary, aurora-text, etc.) remain as they were */
+.brand-primary {
+  font-size: 12.8vw !important;
+  /* Reduced by 20% from 16vw */
+  font-weight: 300 !important;
+  /* Lighter weight for architectural elegance */
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: 0.05em !important;
+  /* Spaced out and elegant */
+  margin: 0;
+  white-space: nowrap;
+}
+
+.brand-secondary-well {
+  width: 100%;
+  /* Allow it to span naturally */
+}
+
+.brand-secondary {
+  font-size: 2.4vw !important;
+  /* Reduced by 20% from 3vw */
+  font-weight: 400 !important;
+  letter-spacing: 0.4vw !important;
+  /* Adjusted tracking so the full name doesn't overflow */
+  text-transform: uppercase !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.6) !important;
+  margin-top: 1.5vw !important;
+  /* Give it some breathing room from the massive text */
+  margin-bottom: 0 !important;
+  white-space: nowrap !important;
+}
+
+.aurora-text {
+  background: linear-gradient(to right,
+      #4c0000,
+      /* Logo Deep Red */
+      #787878,
+      /* Logo Mid Grey */
+      #cbcbcb,
+      /* Logo Light Grey */
+      #8b0000,
+      /* Accent Red */
+      #2d2d2d,
+      /* Logo Dark Charcoal */
+      #4c0000);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: auroraShift 8s linear infinite;
+  filter: drop-shadow(0 0 20px rgba(139, 0, 0, 0.35));
+}
+
+@keyframes auroraShift {
+  to {
+    background-position: 200% center;
+  }
+}
+
+@keyframes slowZoom {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.15);
+  }
+}
+
+@media (max-width: 768px) {
+  .brand-primary {
+    font-size: 15vw !important;
+    /* Reduced by 20% from 19vw */
+    letter-spacing: 0.05em !important;
+  }
+
+  .brand-secondary {
+    font-size: 3.5vw !important;
+    /* Scaled up for mobile readability */
+    letter-spacing: 0.5vw !important;
+  }
+}

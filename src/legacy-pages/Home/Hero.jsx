@@ -1,6 +1,5 @@
 import { useRef } from 'react';
 import useSectionScroll from '../../hooks/useSectionScroll';
-import heroImage from '../../assets/hero_cinematic.png';
 import './Hero.css';
 
 const Hero = () => {
@@ -50,7 +49,23 @@ const Hero = () => {
     <section className="hero-scroll-container" ref={heroRef}>
       <div className="hero-sticky-inner">
         <div className="hero-background">
-          <img src={heroImage} alt="Hero Cinematic Background" className="hero-img" />
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="hero-img"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover'
+            }}
+          >
+            <source src="/Landing_Page_Video_after%20effects_2.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
           <div className="hero-overlay"></div>
         </div>
 

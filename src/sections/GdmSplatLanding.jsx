@@ -4,17 +4,7 @@ import { useRef, useState, useEffect, useLayoutEffect, useCallback } from "react
 import useSectionScroll from "@/hooks/useSectionScroll";
 import AppImage from "@/components/ui/AppImage";
 import logoImg from "@/assets/GDMS_logo.png";
-import pkb from "@/assets/04 PKB/04_01.png";
-import bps from "@/assets/03 BPS/03_01.png";
-import jm from "@/assets/07 jamshedpur mall/07_01.png";
-import ja from "@/assets/08 JODHPUR AIRPORT/08_01.png";
-import pgi from "@/assets/11_PGIMER/11_01.png";
-import epfo from "@/assets/updateImages/01_01.png";
-import cup from "@/assets/05 CUP BHATINDA/05_02.jpg";
-import taj from "@/assets/15_TAJ SAFARIS/15_01.png";
-import laks from "@/assets/12_LAKSHDWEEP/12_02.png";
 
-const bgImages = [pkb, bps, jm, ja, pgi, epfo, cup, taj, laks];
 
 const W_c = 140;
 const H_c = 96;
@@ -22,13 +12,14 @@ const H_c = 96;
 const DEFAULT_NAV = { top: 20, left: 52, width: 70, height: 48 };
 
 /** SSR-safe defaults — never read window during initial render */
-const INITIAL_LAYOUT = { centerY: 0, centerX: 0, ...DEFAULT_NAV };
+const INITIAL_LAYOUT = { centerY: 0, centerX: 0, ...DEFAULT_NAV, measured: false };
 
 function measureLayoutFromDom(navEl) {
   const next = {
     centerY: window.innerHeight / 2 - 48,
     centerX: window.innerWidth / 2 - 70,
     ...DEFAULT_NAV,
+    measured: true,
   };
 
   if (navEl) {
@@ -46,7 +37,6 @@ export default function GdmSplatLanding() {
   const containerRef = useRef(null);
   const navLogoRef = useRef(null);
   const scrollProgress = useSectionScroll(containerRef);
-  const [currentBg, setCurrentBg] = useState(0);
   const [layout, setLayout] = useState(INITIAL_LAYOUT);
 
   const measureLayout = useCallback(() => {
@@ -69,19 +59,15 @@ export default function GdmSplatLanding() {
     }
   }, [scrollProgress, measureLayout]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentBg((prev) => (prev + 1) % bgImages.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
-
   const handleScrollTo = (e, id) => {
     e.preventDefault();
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const { centerY: Y_c, centerX: X_c, top: Y_s, left: X_s, width: W_s, height: H_s } = layout;
+  const { centerY, centerX, top: Y_s, left: X_s, width: W_s, height: H_s, measured } = layout;
+
+  const Y_c = measured ? centerY : "calc(50vh - 48px)";
+  const X_c = measured ? centerX : "calc(50vw - 70px)";
 
   let blockerOpacity = 0.55;
   let logoScale = 4;
@@ -105,8 +91,10 @@ export default function GdmSplatLanding() {
     blockerOpacity = 0;
     logoScale = 1;
     logoOpacity = 1;
-    logoTop = Y_c + factor * (Y_s - Y_c);
-    logoLeft = X_c + factor * (X_s - X_c);
+    const currentY_c = typeof Y_c === "number" ? Y_c : 0;
+    const currentX_c = typeof X_c === "number" ? X_c : 0;
+    logoTop = currentY_c + factor * (Y_s - currentY_c);
+    logoLeft = currentX_c + factor * (X_s - currentX_c);
     logoWidth = W_c + factor * (W_s - W_c);
     logoHeight = H_c + factor * (H_s - H_c);
   } else {
@@ -153,18 +141,16 @@ export default function GdmSplatLanding() {
 
       <section className="sticky top-0 flex h-screen w-full flex-col items-center justify-center overflow-hidden bg-[#f2f2f0]">
         <div className="absolute inset-0 -z-10">
-          {bgImages.map((src, index) => (
-            <AppImage
-              key={index}
-              src={src}
-              alt={`Project ${index + 1}`}
-              fill
-              priority={index === 0}
-              sizes="100vw"
-              className="transition-opacity duration-[1500ms] ease-in-out"
-              style={{ opacity: currentBg === index ? 1 : 0 }}
-            />
-          ))}
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 h-full w-full object-cover"
+          >
+            <source src="/Landing_Page_Video_after%20effects_2.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
           <div className="hero-overlay" />
         </div>
 

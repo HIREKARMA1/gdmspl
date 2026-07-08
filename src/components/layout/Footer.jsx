@@ -13,7 +13,7 @@ export default function Footer() {
               spaces that inspire and elevate human experiences.
             </p>
             <div className="space-y-2 text-sm">
-              <p>Email: mail@gdmspl.com"</p>
+              <p>Email: mail@gdmspl.com</p>
               <p>Phone: +91 11 41025657</p>
               <p>Presence: Delhi, Mumbai, Nepal, Muscat</p>
             </div>

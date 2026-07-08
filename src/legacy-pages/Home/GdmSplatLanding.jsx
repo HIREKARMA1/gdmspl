@@ -3,17 +3,7 @@ import useSectionScroll from '../../hooks/useSectionScroll';
 
 // Import local image assets — using exact project cover images from projects.js
 import logoImg from '../../assets/GDMS_logo.png';
-import pkb from '../../assets/04 PKB/04_01.png';
-import bps from '../../assets/03 BPS/03_01.png';
-import jm from '../../assets/07 jamshedpur mall/07_01.png';
-import ja from '../../assets/08 JODHPUR AIRPORT/08_01.png';
-import pgi from '../../assets/11_PGIMER/11_01.png';
-import epfo from '../../assets/01 epfo/01_01.png';
-import cup from '../../assets/05 CUP BHATINDA/05_02.jpg';
-import taj from '../../assets/15_TAJ SAFARIS/15_01.png';
-import laks from '../../assets/12_LAKSHDWEEP/12_02.png';
 
-const bgImages = [pkb, bps, jm, ja, pgi, epfo, cup, taj, laks];
 
 // Import original hero styles
 import './Hero.css';
@@ -23,15 +13,7 @@ export default function GdmSplatLanding() {
   const navLogoRef = useRef(null);
   const scrollProgress = useSectionScroll(containerRef);
 
-  // Background image slideshow
-  const [currentBg, setCurrentBg] = useState(0);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentBg((prev) => (prev + 1) % bgImages.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
 
   // Smooth scroll handler
   const handleScrollTo = (e, id) => {
@@ -43,8 +25,8 @@ export default function GdmSplatLanding() {
   };
 
   // Screen center coordinates for logo zoom state
-  const Y_c = window.innerHeight / 2 - 48;
-  const X_c = window.innerWidth / 2 - 70;
+  const Y_c = typeof window !== 'undefined' ? window.innerHeight / 2 - 48 : "calc(50vh - 48px)";
+  const X_c = typeof window !== 'undefined' ? window.innerWidth / 2 - 70 : "calc(50vw - 70px)";
   const W_c = 140;
   const H_c = 96;
 
@@ -98,8 +80,10 @@ export default function GdmSplatLanding() {
     blockerOpacity = 0;
     logoScale = 1;
     logoOpacity = 1;
-    logoTop = Y_c + factor * (Y_s - Y_c);
-    logoLeft = X_c + factor * (X_s - X_c);
+    const currentY_c = typeof Y_c === "number" ? Y_c : 0;
+    const currentX_c = typeof X_c === "number" ? X_c : 0;
+    logoTop = currentY_c + factor * (Y_s - currentY_c);
+    logoLeft = currentX_c + factor * (X_s - currentX_c);
     logoWidth = W_c + factor * (W_s - W_c);
     logoHeight = H_c + factor * (H_s - H_c);
     sideElementsOpacity = factor;
@@ -169,25 +153,24 @@ export default function GdmSplatLanding() {
 
       {/* MAIN SITE */}
       <section style={mainSiteStyle}>
-        {/* ROTATING PROJECT BACKGROUND — crossfading slideshow revealed as blocker fades */}
+        {/* ROTATING PROJECT BACKGROUND — video revealed as blocker fades */}
         <div className="hero-background">
-          {bgImages.map((src, index) => (
-            <img
-              key={index}
-              src={src}
-              alt={`Project ${index + 1}`}
-              className="hero-img"
-              style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                opacity: currentBg === index ? 1 : 0,
-                transition: 'opacity 1.5s ease-in-out'
-              }}
-            />
-          ))}
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover'
+            }}
+          >
+            <source src="/Landing_Page_Video_after%20effects_2.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
           <div className="hero-overlay"></div>
         </div>
 

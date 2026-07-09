@@ -63,7 +63,7 @@ const Hero = () => {
               objectFit: 'cover'
             }}
           >
-            <source src="/Landing_Page_Video_after%20effects_2.mp4" type="video/mp4" />
+            <source src="/Landing_Page_Video_after_effects_2.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
           <div className="hero-overlay"></div>

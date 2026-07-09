@@ -5,7 +5,6 @@ import useSectionScroll from "@/hooks/useSectionScroll";
 import AppImage from "@/components/ui/AppImage";
 import logoImg from "@/assets/GDMS_logo.png";
 
-
 const W_c = 140;
 const H_c = 96;
 
@@ -148,7 +147,7 @@ export default function GdmSplatLanding() {
             playsInline
             className="absolute inset-0 h-full w-full object-cover"
           >
-            <source src="/Landing_Page_Video_after%20effects_2.mp4" type="video/mp4" />
+            <source src="/Landing_Page_Video_after_effects_2.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
           <div className="hero-overlay" />

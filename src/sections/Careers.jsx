@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Plus, Minus, Upload, Briefcase, MapPin, Clock, ArrowRight } from "lucide-react";
 import heroImg from "@/assets/careers_hero_action_1776496311897.png";
 import AppImage from "@/components/ui/AppImage";
+import teamDiscussionImg from "@/assets/updateImages/Team Discussion.png";
 
 export default function Careers({ embedded = false }) {
   const [activeJob, setActiveJob] = useState(null);
@@ -144,22 +145,26 @@ export default function Careers({ embedded = false }) {
       )}
 
       <section className="careers-categories" ref={categoriesRef}>
-        <div className="section-header">
-          <h2 className="section-title">Evolving Together</h2>
-          <p className="section-subtitle">Discover where your expertise fits within our multidisciplinary studio.</p>
-        </div>
-        <div className="categories-grid">
-          {categories.map((cat, index) => (
-            <div key={cat.id} className="category-card" style={{ '--delay': `${index * 0.12}s` }}>
-              <span className="category-icon">{cat.icon}</span>
-              <h3>{cat.name}</h3>
-              <p className="cat-desc">{cat.description}</p>
-              <div className="cat-footer">
-                <span className="open-roles">{cat.count} Open Roles</span>
-                <ArrowRight size={16} />
+        <div className="categories-bg" style={{ backgroundImage: `url("${teamDiscussionImg.src || teamDiscussionImg}")` }}></div>
+        <div className="categories-overlay"></div>
+        <div className="categories-content">
+          <div className="section-header">
+            <h2 className="section-title">Evolving Together</h2>
+            <p className="section-subtitle">Discover where your expertise fits within our multidisciplinary studio.</p>
+          </div>
+          <div className="categories-grid">
+            {categories.map((cat, index) => (
+              <div key={cat.id} className="category-card" style={{ '--delay': `${index * 0.12}s` }}>
+                <span className="category-icon">{cat.icon}</span>
+                <h3>{cat.name}</h3>
+                <p className="cat-desc">{cat.description}</p>
+                <div className="cat-footer">
+                  <span className="open-roles">{cat.count} Open Roles</span>
+                  <ArrowRight size={16} />
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 

@@ -65,9 +65,17 @@
   position: relative;
 }
 
-.member-image {
+.member-image-container {
+  position: relative;
   width: 100%;
   height: 250px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.member-image {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   object-position: center 15%;
   transform: scale(1);
@@ -322,12 +330,45 @@
 }
 
 @media (max-width: 768px) {
+  .team-section {
+    padding: 72px 5%;
+  }
+
+  .team-header {
+    margin-bottom: 48px;
+  }
+
   .team-grid {
     grid-template-columns: 1fr;
+    gap: 24px;
   }
   
   .team-member {
-    height: 340px;
+    height: auto;
+    min-height: 0;
+  }
+
+  .member-image-container {
+    height: 280px;
+  }
+
+  .member-info-overlay {
+    padding: 20px 20px 24px;
+    flex: none;
+  }
+
+  .member-name {
+    font-size: 17px;
+    margin-bottom: 10px;
+  }
+
+  .member-bio {
+    -webkit-line-clamp: unset;
+    line-clamp: unset;
+    display: block;
+    overflow: visible;
+    font-size: 13px;
+    line-height: 1.6;
   }
   
   .team-stats {
@@ -339,14 +380,19 @@
   .bio-modal-body {
     grid-template-columns: 1fr;
     gap: 30px;
-    padding: 30px;
+    padding: 24px 20px 30px;
   }
   
   .bio-modal-image-container {
-    height: 300px;
+    min-height: 260px;
+    height: 260px;
   }
   
   .bio-modal-name {
     font-size: 24px;
+  }
+
+  .bio-modal-description {
+    font-size: 1rem;
   }
 }

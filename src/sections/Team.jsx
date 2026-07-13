@@ -35,7 +35,7 @@ export default function Team() {
       <div className="team-container">
         <header className="team-header">
           <h2 className="team-title">
-            The Team Behind<br />
+            The Team Behinde<br />
             <span className="team-title-sub">The Vision</span>
           </h2>
         </header>
@@ -44,7 +44,7 @@ export default function Team() {
           {displayedMembers.map((member) => (
             <div key={member.id} className="team-member" onClick={() => setSelectedMember(member)}>
               <div className="member-image-wrapper">
-                <div className="relative h-[250px] w-full shrink-0 overflow-hidden">
+                <div className="member-image-container">
                   <AppImage
                     src={member.image}
                     alt={member.name}

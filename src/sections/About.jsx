@@ -4,9 +4,8 @@ import { useEffect, useRef } from "react";
 import aboutImg from "@/assets/About.png";
 import AppImage from "@/components/ui/AppImage";
 import { TextAnimate } from "@/components/ui/TextAnimate";
+import { OFFICE_LOCATIONS, navigateToContactLocation } from "@/data/locations";
 import { gsap, registerGsap } from "@/lib/gsap";
-
-const locations = ["Delhi", "Mumbai", "Nepal", "Muscat"];
 
 export default function About() {
   const locationsRef = useRef(null);
@@ -74,15 +73,17 @@ export default function About() {
               <TextAnimate animation="fadeIn" by="word" className="mb-6 text-[0.8rem] font-bold uppercase tracking-[2px] text-[#999]">
                 Our Presence
               </TextAnimate>
-              <div ref={locationsRef} className="flex flex-wrap gap-4 max-md:flex-col max-md:items-start">
-                {locations.map((location) => (
-                  <div
+              <div ref={locationsRef} className="flex flex-wrap gap-4 max-md:flex-col max-md:items-stretch">
+                {OFFICE_LOCATIONS.map((location) => (
+                  <button
                     key={location}
-                    className="location-tag flex cursor-default items-center gap-3 rounded-full border border-accent/50 bg-[#f4f4f4] px-5 py-3 text-sm font-medium text-[#444]"
+                    type="button"
+                    onClick={() => navigateToContactLocation(location)}
+                    className="location-tag flex cursor-pointer items-center gap-3 rounded-full border border-accent/50 bg-[#f4f4f4] px-5 py-3 text-left text-sm font-medium text-[#444] transition-colors hover:border-accent hover:bg-white"
                   >
-                    <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                     {location}
-                  </div>
+                  </button>
                 ))}
               </div>
             </div>

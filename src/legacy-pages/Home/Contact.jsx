@@ -95,7 +95,7 @@ const Contact = () => {
                         <motion.div variants={itemVariants} className="contact-header">
                             <h2 className="section-title">Let's Build <span>Something Extraordinary</span></h2>
                             <p className="section-subtitle">
-                                Whether you're planning a residential masterpiece or a commercial landmark, our team is ready to bring your vision .
+                                Whether you're planning a residential masterpiece or a commercial landmark, our team is ready to bring your vision to life.
                             </p>
                         </motion.div>
 

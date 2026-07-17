@@ -1,5 +1,6 @@
 import Link from "next/link";
 import SocialLinks from "@/components/ui/SocialLinks";
+import { FOOTER_QUICK_LINKS } from "@/config/navigation";
 
 export default function Footer() {
   return (
@@ -22,12 +23,13 @@ export default function Footer() {
           <div>
             <h4 className="mb-4 text-lg font-semibold text-white">Quick Links</h4>
             <ul className="flex flex-col gap-3 text-sm">
-              <li><Link href="/" className="hover:text-white">Home</Link></li>
-              <li><Link href="/#about" className="hover:text-white">About Us</Link></li>
-              <li><Link href="/categories" className="hover:text-white">Projects</Link></li>
-              <li><Link href="/#services" className="hover:text-white">Services</Link></li>
-              <li><Link href="/careers" className="hover:text-white">Careers</Link></li>
-              <li><Link href="/contact" className="hover:text-white">Contact</Link></li>
+              {FOOTER_QUICK_LINKS.map((item) => (
+                <li key={item.href}>
+                  <Link href={item.href} className="hover:text-white">
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 

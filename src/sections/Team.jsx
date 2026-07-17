@@ -35,7 +35,7 @@ export default function Team() {
       <div className="team-container">
         <header className="team-header">
           <h2 className="team-title">
-            The Team Behinde<br />
+            The Team Behind<br />
             <span className="team-title-sub">The Vision</span>
           </h2>
         </header>
@@ -64,7 +64,7 @@ export default function Team() {
         </div>
 
         {teamMembers.length > 6 && (
-          <div className="team-view-more" onClick={() => router.push("/team")} style={{ cursor: "pointer" }}>
+          <div className="team-view-more" onClick={() => router.push("/team/all")} style={{ cursor: "pointer" }}>
             <InteractiveHoverButton>VIEW MORE</InteractiveHoverButton>
           </div>
         )}

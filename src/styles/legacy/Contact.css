@@ -176,6 +176,24 @@
     align-items: flex-start;
 }
 
+.detail-item-link {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    border-radius: 12px;
+    padding: 8px;
+    margin: -8px;
+    transition: background-color 0.3s ease;
+}
+
+.detail-item-link:hover {
+    background-color: rgba(255, 107, 53, 0.06);
+}
+
+.detail-item-link:hover p {
+    color: #111;
+}
+
 .icon-box {
     width: 44px;
     height: 44px;

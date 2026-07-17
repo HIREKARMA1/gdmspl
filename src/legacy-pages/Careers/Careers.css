@@ -79,8 +79,8 @@
   bottom: 0;
   background-size: cover;
   background-position: center;
-  filter: blur(12px) brightness(1.1) contrast(0.95);
-  transform: scale(1.05); /* Prevents white bleed at edges */
+  filter: blur(4px) brightness(1.05) contrast(1);
+  transform: scale(1.02); /* Prevents white bleed at edges */
   z-index: -2;
 }
 
@@ -90,7 +90,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.38);
   z-index: -1;
 }
 
@@ -145,9 +145,9 @@
 
 .category-card {
   padding: 40px 30px;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   border: none;
   border-right: 1px solid rgba(0, 0, 0, 0.08);
   cursor: pointer;

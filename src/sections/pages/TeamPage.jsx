@@ -29,13 +29,13 @@ export default function TeamPage() {
 
   return (
     <div className="team-page-container">
-      <button className="back-to-home-btn" onClick={() => router.push("/#team")}>
+      <button className="back-to-home-btn" onClick={() => router.push("/team")}>
         <ArrowLeft size={20} />
         <span>Back to Home</span>
       </button>
 
       <div className="team-page-header">
-        <h1>Meet Our Full Team</h1>
+        <h1>Meet our core team</h1>
         <p>The visionaries behind our architectural excellence.</p>
       </div>
 

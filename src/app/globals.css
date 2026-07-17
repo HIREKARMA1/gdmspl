@@ -1,9 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+@import "../styles/design-tokens.css";
+@import "../styles/legacy/Services.css";
+@import "../styles/legacy/Team.css";
+@import "../styles/legacy/Contact.css";
+@import "../styles/legacy/Careers.css";
+@import "../styles/legacy/Categories.css";
+@import "../styles/legacy/ProjectsPage.css";
+@import "../styles/legacy/ProjectDetail.css";
+@import "../styles/legacy/TeamPage.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap');
-@import "../styles/design-tokens.css";
 
 @layer base {
   :root {
@@ -132,6 +140,11 @@
     margin-right: -2vw;
   }
 
+  .projects-track-standalone {
+    transform: none !important;
+    will-change: auto;
+  }
+
   @media (max-width: 1024px) {
     .projects-track {
       grid-template-rows: repeat(2, 30vh);
@@ -156,12 +169,3 @@
     }
   }
 }
-
-@import "../styles/legacy/Services.css";
-@import "../styles/legacy/Team.css";
-@import "../styles/legacy/Contact.css";
-@import "../styles/legacy/Careers.css";
-@import "../styles/legacy/Categories.css";
-@import "../styles/legacy/ProjectsPage.css";
-@import "../styles/legacy/ProjectDetail.css";
-@import "../styles/legacy/TeamPage.css";

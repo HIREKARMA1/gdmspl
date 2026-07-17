@@ -144,7 +144,7 @@ export default function Careers({ embedded = false }) {
         </section>
       )}
 
-      <section className="careers-categories" ref={categoriesRef}>
+      {/* <section className="careers-categories" ref={categoriesRef}>
         <div className="categories-bg" style={{ backgroundImage: `url("${teamDiscussionImg.src || teamDiscussionImg}")` }}></div>
         <div className="categories-overlay"></div>
         <div className="categories-content">
@@ -166,7 +166,7 @@ export default function Careers({ embedded = false }) {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       <section className="jobs-section">
         <div className="jobs-container">

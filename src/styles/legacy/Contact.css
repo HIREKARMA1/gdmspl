@@ -176,6 +176,21 @@
     align-items: flex-start;
 }
 
+a.detail-item-link {
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    border-radius: 12px;
+    padding: 4px;
+    margin: -4px;
+    transition: transform 0.3s ease;
+}
+
+a.detail-item-link:focus-visible {
+    outline: 2px solid #ff6b35;
+    outline-offset: 2px;
+}
+
 .icon-box {
     width: 44px;
     height: 44px;

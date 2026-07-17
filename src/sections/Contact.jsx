@@ -69,7 +69,7 @@ function ContactContent() {
                 Let&apos;s Build <span>Something Extraordinary</span>
               </h2>
               <p className="section-subtitle">
-                Whether you&apos;re planning a residential masterpiece or a commercial landmark, our team is ready to bring your vision .
+                Whether you&apos;re planning a residential masterpiece or a commercial landmark, our team is ready to bring your vision to life.
               </p>
             </div>
 
@@ -142,34 +142,54 @@ function ContactContent() {
             </div>
 
             <div className="contact-details">
-              <div className="detail-item">
+              <a
+                href={currentDetails.mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="detail-item detail-item-link"
+                aria-label={`Open ${selectedLocation} office location in Google Maps`}
+              >
                 <div className="icon-box"><MapPin size={20} /></div>
                 <div>
                   <h3>{selectedLocation} Office</h3>
                   <p>{currentDetails.office}</p>
                 </div>
-              </div>
-              <div className="detail-item">
+              </a>
+              <a
+                href={currentDetails.telUrl}
+                className="detail-item detail-item-link"
+                aria-label={`Call us at ${currentDetails.phone}`}
+              >
                 <div className="icon-box"><Phone size={20} /></div>
                 <div>
                   <h3>Call Us</h3>
                   <p>{currentDetails.phone}</p>
                 </div>
-              </div>
-              <div className="detail-item">
+              </a>
+              <a
+                href={currentDetails.mailtoUrl}
+                className="detail-item detail-item-link"
+                aria-label={`Email us at ${currentDetails.email}`}
+              >
                 <div className="icon-box"><Mail size={20} /></div>
                 <div>
                   <h3>Email Us</h3>
                   <p>{currentDetails.email}</p>
                 </div>
-              </div>
-              <div className="detail-item">
+              </a>
+              <a
+                href={currentDetails.websiteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="detail-item detail-item-link"
+                aria-label={`Visit our website at ${currentDetails.website}`}
+              >
                 <div className="icon-box"><Globe size={20} /></div>
                 <div>
                   <h3>Website</h3>
                   <p>{currentDetails.website}</p>
                 </div>
-              </div>
+              </a>
             </div>
           </div>
 

@@ -1,29 +1,58 @@
 export const OFFICE_LOCATIONS = ["Delhi", "Mumbai", "Nepal", "Muscat"];
 
+const WEBSITE_DISPLAY = "www.gdmspl.com";
+const WEBSITE_URL = "https://www.gdmspl.com";
+
+function buildMapsUrl(address) {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+}
+
+function buildTelUrl(phone) {
+  const primary = phone.split("/")[0].trim();
+  const normalized = primary.replace(/[^\d+]/g, "");
+  return `tel:${normalized}`;
+}
+
 export const locationDetails = {
   Delhi: {
     office: "A-58/8, top floor, Vishwakarma colony, MB road ,110044-New Delhi, India",
     phone: "+91 11 41025657",
     email: "mail@gdmspl.com",
-    website: "www.gdmspl.com",
+    website: WEBSITE_DISPLAY,
+    mapsUrl: buildMapsUrl("A-58/8, top floor, Vishwakarma colony, MB road ,110044-New Delhi, India"),
+    telUrl: buildTelUrl("+91 11 41025657"),
+    mailtoUrl: "mailto:mail@gdmspl.com",
+    websiteUrl: WEBSITE_URL,
   },
   Mumbai: {
     office: "A-124, Silver Spring, Plot No. G-6, In Front of Dena Bank, MIDC Area, Taloja, Navi Mumbai 410208, Maharashtra, India",
     phone: "+91 11 41025657",
     email: "mail@gdmspl.com",
-    website: "www.gdmspl.com",
+    website: WEBSITE_DISPLAY,
+    mapsUrl: buildMapsUrl("A-124, Silver Spring, Plot No. G-6, In Front of Dena Bank, MIDC Area, Taloja, Navi Mumbai 410208, Maharashtra, India"),
+    telUrl: buildTelUrl("+91 11 41025657"),
+    mailtoUrl: "mailto:mail@gdmspl.com",
+    websiteUrl: WEBSITE_URL,
   },
   Nepal: {
     office: "Ground Floor, End House, Kamal Marg, Near Islington College, Kamal Pokhari, Kathmandu 44600, Nepal",
     phone: "9801555544/88",
     email: "mail@gdmspl.com",
-    website: "www.gdmspl.com",
+    website: WEBSITE_DISPLAY,
+    mapsUrl: buildMapsUrl("Ground Floor, End House, Kamal Marg, Near Islington College, Kamal Pokhari, Kathmandu 44600, Nepal"),
+    telUrl: buildTelUrl("9801555544/88"),
+    mailtoUrl: "mailto:mail@gdmspl.com",
+    websiteUrl: WEBSITE_URL,
   },
   Muscat: {
     office: "Oman Business Park, Muscat, Sultanate of Oman",
     phone: "+968 24 123456",
     email: "muscat@gdmspl.com",
-    website: "www.gdmspl.com",
+    website: WEBSITE_DISPLAY,
+    mapsUrl: buildMapsUrl("Oman Business Park, Muscat, Sultanate of Oman"),
+    telUrl: buildTelUrl("+968 24 123456"),
+    mailtoUrl: "mailto:muscat@gdmspl.com",
+    websiteUrl: WEBSITE_URL,
   },
 };
 

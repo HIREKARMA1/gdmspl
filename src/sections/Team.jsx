@@ -4,38 +4,71 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
 import InteractiveHoverButton from "@/components/ui/InteractiveHoverButton";
-import { teamMembers } from "@/data/team";
+import { teamMembers as staticTeam } from "@/data/team";
+import { fetchPublicTeamMembers } from "@/services/teamMembers";
 import AppImage from "@/components/ui/AppImage";
+
+function normalizeMember(member) {
+  return {
+    id: member.id,
+    name: member.name,
+    role: member.role,
+    bio: member.bio || "",
+    image: member.image_url || member.image,
+  };
+}
 
 export default function Team() {
   const router = useRouter();
   const [selectedMember, setSelectedMember] = useState(null);
-  const displayedMembers = teamMembers.slice(0, 6);
+  const [members, setMembers] = useState(staticTeam.slice(0, 6).map(normalizeMember));
+  const [total, setTotal] = useState(staticTeam.length);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function load() {
+      try {
+        const data = await fetchPublicTeamMembers({ featured: true, limit: 8 });
+        if (cancelled || !data.items?.length) return;
+        setMembers(data.items.map(normalizeMember));
+        setTotal(data.total || data.items.length);
+      } catch {
+        // keep static fallback
+      }
+    }
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
+            entry.target.classList.add("visible");
           }
         });
       },
       { threshold: 0.1 }
     );
 
-    const members = document.querySelectorAll('.team-member');
-    members.forEach((member) => observer.observe(member));
+    const nodes = document.querySelectorAll(".team-member");
+    nodes.forEach((member) => observer.observe(member));
 
     return () => observer.disconnect();
-  }, []);
+  }, [members]);
+
+  const displayedMembers = members.slice(0, 6);
 
   return (
     <section id="team" className="team-section">
       <div className="team-container">
         <header className="team-header">
           <h2 className="team-title">
-            The Team Behind<br />
+            The Team Behind
+            <br />
             <span className="team-title-sub">The Vision</span>
           </h2>
         </header>
@@ -63,16 +96,17 @@ export default function Team() {
           ))}
         </div>
 
-        {teamMembers.length > 6 && (
-          <div className="team-view-more" onClick={() => router.push("/team/all")} style={{ cursor: "pointer" }}>
+        {total > 6 && (
+          <div
+            className="team-view-more"
+            onClick={() => router.push("/team/all")}
+            style={{ cursor: "pointer" }}
+          >
             <InteractiveHoverButton>VIEW MORE</InteractiveHoverButton>
           </div>
         )}
-
-
       </div>
 
-      {/* Elegant Bio Modal Popup (Lightbox) */}
       {selectedMember && (
         <div className="bio-modal-overlay" onClick={() => setSelectedMember(null)}>
           <div className="bio-modal-content" onClick={(e) => e.stopPropagation()}>
@@ -94,7 +128,7 @@ export default function Team() {
                 <h3 className="bio-modal-name">{selectedMember.name}</h3>
                 <div className="bio-modal-divider"></div>
                 <div className="bio-modal-description">
-                  {selectedMember.bio.split('\n\n').map((paragraph, index) => (
+                  {selectedMember.bio.split("\n\n").map((paragraph, index) => (
                     <p key={index}>{paragraph}</p>
                   ))}
                 </div>
@@ -105,4 +139,4 @@ export default function Team() {
       )}
     </section>
   );
-};
+}

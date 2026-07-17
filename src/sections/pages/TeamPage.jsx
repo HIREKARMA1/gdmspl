@@ -1,16 +1,45 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
-import { teamMembers } from "@/data/team";
+import { teamMembers as staticTeam } from "@/data/team";
+import { fetchPublicTeamMembers } from "@/services/teamMembers";
 import AppImage from "@/components/ui/AppImage";
+
+function normalizeMember(member) {
+  return {
+    id: member.id,
+    name: member.name,
+    role: member.role,
+    bio: member.bio || "",
+    image: member.image_url || member.image,
+  };
+}
 
 export default function TeamPage() {
   const router = useRouter();
+  const [members, setMembers] = useState(staticTeam.map(normalizeMember));
 
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function load() {
+      try {
+        const data = await fetchPublicTeamMembers({ page: 1, page_size: 50 });
+        if (cancelled || !data.items?.length) return;
+        setMembers(data.items.map(normalizeMember));
+      } catch {
+        // keep static fallback
+      }
+    }
+    load();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   useEffect(() => {
@@ -25,7 +54,7 @@ export default function TeamPage() {
 
     document.querySelectorAll(".team-page-row").forEach((row) => observer.observe(row));
     return () => observer.disconnect();
-  }, []);
+  }, [members]);
 
   return (
     <div className="team-page-container">
@@ -40,7 +69,7 @@ export default function TeamPage() {
       </div>
 
       <div className="team-page-list">
-        {teamMembers.map((member) => (
+        {members.map((member) => (
           <div key={member.id} className="team-page-row">
             <div className="team-page-row-meta">
               <h3 className="team-page-row-name">{member.name}</h3>

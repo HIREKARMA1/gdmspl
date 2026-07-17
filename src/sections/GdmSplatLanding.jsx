@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { gsap, registerGsap } from "@/lib/gsap";
+import { gsap, registerGsap, ScrollTrigger } from "@/lib/gsap";
 
 export default function GdmSplatLanding() {
   const containerRef = useRef(null);
@@ -31,12 +31,21 @@ export default function GdmSplatLanding() {
             start: "top top",
             end: "bottom top",
             scrub: 0.6,
+            invalidateOnRefresh: true,
           },
         }
       );
     }, containerRef);
 
-    return () => ctx.revert();
+    // Refresh after layout/video settle so ScrollTrigger measures correctly
+    const refreshId = requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
+    });
+
+    return () => {
+      cancelAnimationFrame(refreshId);
+      ctx.revert();
+    };
   }, []);
 
   return (
@@ -57,7 +66,7 @@ export default function GdmSplatLanding() {
             className="absolute inset-0 h-full w-full object-cover"
           >
             <source
-              src="https://gdmspl.s3.us-east-1.amazonaws.com/Landing_Page_Video_after_effects_2.mp4"
+              src="https://gdmspl.s3.us-east-1.amazonaws.com/Landing+page+new+vidoe+(Updated).mp4"
               type="video/mp4"
             />
             Your browser does not support the video tag.

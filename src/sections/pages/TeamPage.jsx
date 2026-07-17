@@ -35,7 +35,7 @@ export default function TeamPage() {
       </button>
 
       <div className="team-page-header">
-        <h1>Meet Our Full Team</h1>
+        <h1>Meet our Core Team</h1>
         <p>The visionaries behind our architectural excellence.</p>
       </div>
 

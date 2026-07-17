@@ -25,7 +25,8 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: brightness(0.6);
+  filter: blur(5px) brightness(0.75) contrast(0.95);
+  transform: scale(1.05);
 }
 
 .hero-content {
@@ -79,7 +80,7 @@
   bottom: 0;
   background-size: cover;
   background-position: center;
-  filter: blur(12px) brightness(1.1) contrast(0.95);
+  filter: blur(5px) brightness(1.1) contrast(0.95);
   transform: scale(1.05); /* Prevents white bleed at edges */
   z-index: -2;
 }

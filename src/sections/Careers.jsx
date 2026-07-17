@@ -2,9 +2,8 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { Plus, Minus, Upload, Briefcase, MapPin, Clock, ArrowRight } from "lucide-react";
-import heroImg from "@/assets/careers_hero_action_1776496311897.png";
 import AppImage from "@/components/ui/AppImage";
-import teamDiscussionImg from "@/assets/updateImages/Team Discussion.png";
+import teamImage from "@/assets/updateImages/Team Discussion.png";
 
 export default function Careers({ embedded = false }) {
   const [activeJob, setActiveJob] = useState(null);
@@ -136,7 +135,7 @@ export default function Careers({ embedded = false }) {
     <div className={`careers-page ${embedded ? 'careers-embedded' : ''}`} id="career">
       {!embedded && (
         <section className="careers-hero">
-          <AppImage src={heroImg} alt="Collaborative Studio" fill sizes="100vw" className="hero-bg object-cover" />
+          <AppImage src={teamImage} alt="GDMSPL Team" fill sizes="100vw" className="hero-bg object-cover" />
           <div className="hero-content">
             <div className="label">Careers</div>
             <p>Join a collective of visionaries redefining the architectural landscape.</p>
@@ -145,7 +144,7 @@ export default function Careers({ embedded = false }) {
       )}
 
       <section className="careers-categories" ref={categoriesRef}>
-        <div className="categories-bg" style={{ backgroundImage: `url("${teamDiscussionImg.src || teamDiscussionImg}")` }}></div>
+        <div className="categories-bg" style={{ backgroundImage: `url("${teamImage.src || teamImage}")` }}></div>
         <div className="categories-overlay"></div>
         <div className="categories-content">
           <div className="section-header">

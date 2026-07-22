@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Plus, Minus, Upload, Briefcase, MapPin, Clock } from "lucide-react";
-import heroImg from "@/assets/careers_hero_action_1776496311897.png";
+import heroImg from "@/assets/updateImages/Team Discussion.png";
 import AppImage from "@/components/ui/AppImage";
 import { getApiErrorMessage } from "@/lib/apiErrors";
 import { fetchPublicJobOpenings, submitJobApplication } from "@/services/jobOpenings";

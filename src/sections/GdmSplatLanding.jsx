@@ -115,7 +115,7 @@ export default function GdmSplatLanding() {
             className="absolute inset-0 h-full w-full object-cover"
           >
             <source
-              src="https://gdmspl.s3.us-east-1.amazonaws.com/Landing+page+new+vidoe+(Updated).mp4"
+              src="https://gdmspl.s3.us-east-1.amazonaws.com/Landing+page+new+vidoe.mp4"
               type="video/mp4"
             />
             Your browser does not support the video tag.

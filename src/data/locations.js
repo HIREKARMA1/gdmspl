@@ -18,41 +18,29 @@ export const locationDetails = {
     office: "A-58/8, top floor, Vishwakarma colony, MB road ,110044-New Delhi, India",
     phone: "+91 11 41025657",
     email: "mail@gdmspl.com",
-    website: WEBSITE_DISPLAY,
-    mapsUrl: buildMapsUrl("A-58/8, top floor, Vishwakarma colony, MB road ,110044-New Delhi, India"),
-    telUrl: buildTelUrl("+91 11 41025657"),
-    mailtoUrl: "mailto:mail@gdmspl.com",
-    websiteUrl: WEBSITE_URL,
+    website: "www.gdmspl.com",
+    mapUrl: "https://maps.app.goo.gl/sWBwb29jXNMJvqbGA",
   },
   Mumbai: {
     office: "A-124, Silver Spring, Plot No. G-6, In Front of Dena Bank, MIDC Area, Taloja, Navi Mumbai 410208, Maharashtra, India",
     phone: "+91 11 41025657",
     email: "mail@gdmspl.com",
-    website: WEBSITE_DISPLAY,
-    mapsUrl: buildMapsUrl("A-124, Silver Spring, Plot No. G-6, In Front of Dena Bank, MIDC Area, Taloja, Navi Mumbai 410208, Maharashtra, India"),
-    telUrl: buildTelUrl("+91 11 41025657"),
-    mailtoUrl: "mailto:mail@gdmspl.com",
-    websiteUrl: WEBSITE_URL,
+    website: "www.gdmspl.com",
+    mapUrl: "https://maps.app.goo.gl/WyetYfETPTBWuRi78",
   },
   Nepal: {
     office: "Ground Floor, End House, Kamal Marg, Near Islington College, Kamal Pokhari, Kathmandu 44600, Nepal",
     phone: "9801555544/88",
     email: "mail@gdmspl.com",
-    website: WEBSITE_DISPLAY,
-    mapsUrl: buildMapsUrl("Ground Floor, End House, Kamal Marg, Near Islington College, Kamal Pokhari, Kathmandu 44600, Nepal"),
-    telUrl: buildTelUrl("9801555544/88"),
-    mailtoUrl: "mailto:mail@gdmspl.com",
-    websiteUrl: WEBSITE_URL,
+    website: "www.gdmspl.com",
+    mapUrl: "https://www.google.com/maps/search/?api=1&query=Ground+Floor,+End+House,+Kamal+Marg,+Kathmandu+44600,+Nepal",
   },
   Muscat: {
     office: "Oman Business Park, Muscat, Sultanate of Oman",
     phone: "+968 24 123456",
     email: "muscat@gdmspl.com",
-    website: WEBSITE_DISPLAY,
-    mapsUrl: buildMapsUrl("Oman Business Park, Muscat, Sultanate of Oman"),
-    telUrl: buildTelUrl("+968 24 123456"),
-    mailtoUrl: "mailto:muscat@gdmspl.com",
-    websiteUrl: WEBSITE_URL,
+    website: "www.gdmspl.com",
+    mapUrl: "https://www.google.com/maps/search/?api=1&query=Oman+Business+Park,+Muscat,+Oman",
   },
 };
 
@@ -72,14 +60,18 @@ export function isValidLocation(location) {
 export function navigateToContactLocation(location) {
   if (!isValidLocation(location)) return;
 
-  const url = new URL(window.location.href);
-  url.searchParams.set("location", location);
-  url.hash = "contact";
-  window.history.pushState(null, "", url);
+  window.location.href = `/contact?location=${encodeURIComponent(location)}`;
+}
 
-  window.dispatchEvent(
-    new CustomEvent(CONTACT_LOCATION_EVENT, { detail: location })
-  );
+export function getPhoneHref(phone) {
+  const primary = phone.split(/[/,]/)[0].trim();
+  return `tel:${primary.replace(/[^\d+]/g, "")}`;
+}
 
-  document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+export function getEmailHref(email) {
+  return `mailto:${email}`;
+}
+
+export function getWebsiteHref(website) {
+  return website.startsWith("http") ? website : `https://${website}`;
 }

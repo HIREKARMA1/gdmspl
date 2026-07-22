@@ -27,7 +27,7 @@ export default function ProjectsPage() {
       <div className="container">
         <header className="projects-page-header">
           <div className="header-left">
-            <button className="back-to-home-btn" onClick={() => router.push("/#projects")}>
+            <button className="back-to-home-btn" onClick={() => router.push("/projects")}>
               <ArrowLeft size={18} />
               <span>BACK TO HOME</span>
             </button>

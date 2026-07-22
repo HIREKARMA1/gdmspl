@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import logo from "@/assets/GDMS_logo.png";
 import AppImage from "@/components/ui/AppImage";
+import { MAIN_NAV } from "@/config/navigation";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -14,25 +15,23 @@ export default function Header() {
   const isHomepage = pathname === "/";
 
   useEffect(() => {
+    if (!isHomepage) {
+      setIsScrolled(true);
+      return;
+    }
+
     const handleScroll = () => {
-      if (isHomepage) {
-        setIsScrolled(window.scrollY > window.innerHeight * 2.0);
-      } else {
-        setIsScrolled(window.scrollY > 20);
-      }
+      setIsScrolled(window.scrollY > window.innerHeight * 2.0);
     };
+
     window.addEventListener("scroll", handleScroll);
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isHomepage]);
 
-  const handleNavClick = (id) => {
+  useEffect(() => {
     setIsMenuOpen(false);
-    if (pathname === "/") {
-      const element = document.getElementById(id);
-      if (element) element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  }, [pathname]);
 
   if (isHomepage && !isScrolled) return null;
 
@@ -63,31 +62,18 @@ export default function Header() {
             isScrolled ? "max-md:top-[72px]" : ""
           }`}
         >
-          {[
-            { href: "/#projects", id: "projects", label: "PROJECTS" },
-            { href: "/#about", id: "about", label: "ABOUT US" },
-            { href: "/#services", id: "services", label: "SERVICES" },
-            { href: "/#team", id: "team", label: "TEAM" },
-          ].map((item) => (
+          {MAIN_NAV.map((item) => (
             <Link
-              key={item.id}
+              key={item.href}
               href={item.href}
-              onClick={() => handleNavClick(item.id)}
-              className="text-charcoal transition-all duration-fast hover:-translate-y-px hover:text-accent"
+              onClick={() => setIsMenuOpen(false)}
+              className={`text-charcoal transition-all duration-fast hover:-translate-y-px hover:text-accent ${
+                pathname === item.href ? "text-accent" : ""
+              }`}
             >
               {item.label}
             </Link>
           ))}
-          <Link href="/careers" onClick={() => setIsMenuOpen(false)} className="text-charcoal hover:text-accent">
-            CAREER
-          </Link>
-          <Link
-            href="/#contact"
-            onClick={() => handleNavClick("contact")}
-            className="text-charcoal hover:text-accent"
-          >
-            CONTACT US
-          </Link>
         </nav>
 
         <button

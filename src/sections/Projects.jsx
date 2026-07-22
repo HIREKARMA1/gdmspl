@@ -13,7 +13,7 @@ const bentoSizes = [
   "bento-wide", "bento-standard", "bento-standard", "bento-tall",
 ];
 
-export default function Projects() {
+export default function Projects({ standalone = false }) {
   const containerRef = useRef(null);
   const router = useRouter();
   const scrollProgress = useSectionScroll(containerRef);
@@ -26,11 +26,25 @@ export default function Projects() {
     size: bentoSizes[index],
   }));
 
-  const translateX = scrollProgress * 76;
+  const translateX = standalone ? 0 : scrollProgress * 76;
 
   return (
-    <section id="projects" ref={containerRef} className="relative h-screen-280 bg-canvas max-md:h-auto">
-      <div className="sticky top-0 flex h-screen w-full items-center overflow-hidden max-md:relative max-md:h-auto">
+    <section
+      id="projects"
+      ref={containerRef}
+      className={
+        standalone
+          ? "relative bg-canvas py-12"
+          : "relative h-screen-280 bg-canvas max-md:h-auto"
+      }
+    >
+      <div
+        className={
+          standalone
+            ? "relative w-full overflow-x-auto px-6 pb-8"
+            : "sticky top-0 flex h-screen w-full items-center overflow-hidden max-md:relative max-md:h-auto"
+        }
+      >
         <div
           className="pointer-events-none absolute inset-0 -z-10"
           style={{
@@ -40,8 +54,8 @@ export default function Projects() {
         />
 
         <div
-          className="projects-track"
-          style={{ transform: `translateX(-${translateX}%)` }}
+          className={`projects-track ${standalone ? "projects-track-standalone" : ""}`}
+          style={standalone ? undefined : { transform: `translateX(-${translateX}%)` }}
         >
           {displayItems.map((item, index) => (
             <div key={index} className={`relative overflow-hidden rounded-xl transition-transform duration-300 hover:scale-[0.98] ${item.size}`}>
@@ -61,7 +75,7 @@ export default function Projects() {
               <p className="mb-8 max-w-[85%] font-inter text-xs leading-relaxed text-charcoal">
                 Explore our full collection of architectural masterpieces, premium interiors, and landscape designs.
               </p>
-              <div onClick={() => router.push("/projects")}>
+              <div onClick={() => router.push("/projects/all")}>
                 <InteractiveHoverButton>EXPLORE ALL PROJECTS</InteractiveHoverButton>
               </div>
             </div>

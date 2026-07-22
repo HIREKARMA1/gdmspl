@@ -6,6 +6,9 @@ import { Mail, Phone, MapPin, MessageSquare, ArrowRight, Globe } from "lucide-re
 import { DottedMap } from "@/components/magicui/dotted-map";
 import {
   CONTACT_LOCATION_EVENT,
+  getEmailHref,
+  getPhoneHref,
+  getWebsiteHref,
   isValidLocation,
   locationDetails,
   mapMarkers,
@@ -69,6 +72,7 @@ function ContactContent() {
                 Let&apos;s Build <span>Something Extraordinary</span>
               </h2>
               <p className="section-subtitle">
+                Whether you&apos;re planning a residential masterpiece or a commercial landmark, our team is ready to bring your vision to life.
                 Whether you&apos;re planning a residential masterpiece or a commercial landmark, our team is ready to bring your vision to life.
               </p>
             </div>
@@ -143,11 +147,10 @@ function ContactContent() {
 
             <div className="contact-details">
               <a
-                href={currentDetails.mapsUrl}
+                href={currentDetails.mapUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="detail-item detail-item-link"
-                aria-label={`Open ${selectedLocation} office location in Google Maps`}
               >
                 <div className="icon-box"><MapPin size={20} /></div>
                 <div>
@@ -155,22 +158,14 @@ function ContactContent() {
                   <p>{currentDetails.office}</p>
                 </div>
               </a>
-              <a
-                href={currentDetails.telUrl}
-                className="detail-item detail-item-link"
-                aria-label={`Call us at ${currentDetails.phone}`}
-              >
+              <a href={getPhoneHref(currentDetails.phone)} className="detail-item detail-item-link">
                 <div className="icon-box"><Phone size={20} /></div>
                 <div>
                   <h3>Call Us</h3>
                   <p>{currentDetails.phone}</p>
                 </div>
               </a>
-              <a
-                href={currentDetails.mailtoUrl}
-                className="detail-item detail-item-link"
-                aria-label={`Email us at ${currentDetails.email}`}
-              >
+              <a href={getEmailHref(currentDetails.email)} className="detail-item detail-item-link">
                 <div className="icon-box"><Mail size={20} /></div>
                 <div>
                   <h3>Email Us</h3>
@@ -178,11 +173,10 @@ function ContactContent() {
                 </div>
               </a>
               <a
-                href={currentDetails.websiteUrl}
+                href={getWebsiteHref(currentDetails.website)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="detail-item detail-item-link"
-                aria-label={`Visit our website at ${currentDetails.website}`}
               >
                 <div className="icon-box"><Globe size={20} /></div>
                 <div>
@@ -190,6 +184,7 @@ function ContactContent() {
                   <p>{currentDetails.website}</p>
                 </div>
               </a>
+             
             </div>
           </div>
 

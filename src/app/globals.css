@@ -1,9 +1,8 @@
+@import "../styles/design-tokens.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap');
-@import "../styles/design-tokens.css";
 
 @layer base {
   :root {
@@ -64,7 +63,7 @@
 
   .aurora-text {
     color: #4c0000;
-    background: linear-gradient(90deg, #4c0000 0%, #6b1515 18%, #787878 38%, #8b0000 58%, #3d3d3d 78%, #4c0000 100%);
+    background: linear-gradient(90deg, #4c0000 0%, #6b1515 25%, #8b0000 50%, #5a0a0a 75%, #4c0000 100%);
     background-size: 100% 100%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -132,6 +131,11 @@
     margin-right: -2vw;
   }
 
+  .projects-track-standalone {
+    transform: none !important;
+    will-change: auto;
+  }
+
   @media (max-width: 1024px) {
     .projects-track {
       grid-template-rows: repeat(2, 30vh);
@@ -156,12 +160,3 @@
     }
   }
 }
-
-@import "../styles/legacy/Services.css";
-@import "../styles/legacy/Team.css";
-@import "../styles/legacy/Contact.css";
-@import "../styles/legacy/Careers.css";
-@import "../styles/legacy/Categories.css";
-@import "../styles/legacy/ProjectsPage.css";
-@import "../styles/legacy/ProjectDetail.css";
-@import "../styles/legacy/TeamPage.css";

@@ -1,5 +1,18 @@
 export const OFFICE_LOCATIONS = ["Delhi", "Mumbai", "Nepal", "Muscat"];
 
+const WEBSITE_DISPLAY = "www.gdmspl.com";
+const WEBSITE_URL = "https://www.gdmspl.com";
+
+function buildMapsUrl(address) {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+}
+
+function buildTelUrl(phone) {
+  const primary = phone.split("/")[0].trim();
+  const normalized = primary.replace(/[^\d+]/g, "");
+  return `tel:${normalized}`;
+}
+
 export const locationDetails = {
   Delhi: {
     office: "A-58/8, top floor, Vishwakarma colony, MB road ,110044-New Delhi, India",

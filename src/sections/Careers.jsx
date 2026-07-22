@@ -156,7 +156,7 @@ export default function Careers({ embedded = false }) {
     <div className={`careers-page ${embedded ? "careers-embedded" : ""}`} id="career">
       {!embedded && (
         <section className="careers-hero">
-          <AppImage src={heroImg} alt="Collaborative Studio" fill sizes="100vw" className="hero-bg object-cover" />
+          <AppImage src={heroImg} alt="GDMSPL Team" fill sizes="100vw" className="hero-bg object-cover" />
           <div className="hero-content">
             <div className="label">Careers</div>
             <p>Join a collective of visionaries redefining the architectural landscape.</p>

@@ -73,6 +73,7 @@ function ContactContent() {
               </h2>
               <p className="section-subtitle">
                 Whether you&apos;re planning a residential masterpiece or a commercial landmark, our team is ready to bring your vision to life.
+                Whether you&apos;re planning a residential masterpiece or a commercial landmark, our team is ready to bring your vision to life.
               </p>
             </div>
 
@@ -183,6 +184,7 @@ function ContactContent() {
                   <p>{currentDetails.website}</p>
                 </div>
               </a>
+             
             </div>
           </div>
 

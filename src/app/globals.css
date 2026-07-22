@@ -63,7 +63,7 @@
 
   .aurora-text {
     color: #4c0000;
-    background: linear-gradient(90deg, #4c0000 0%, #6b1515 18%, #787878 38%, #8b0000 58%, #3d3d3d 78%, #4c0000 100%);
+    background: linear-gradient(90deg, #4c0000 0%, #6b1515 25%, #8b0000 50%, #5a0a0a 75%, #4c0000 100%);
     background-size: 100% 100%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;

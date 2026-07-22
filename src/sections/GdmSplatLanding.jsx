@@ -3,10 +3,16 @@
 import { useEffect, useRef } from "react";
 import { gsap, registerGsap, ScrollTrigger } from "@/lib/gsap";
 
+/** Still considered "watching the hero" if scroll stays near the top. */
+const HERO_STILL_VIEWING_THRESHOLD = 0.35;
+
 export default function GdmSplatLanding() {
   const containerRef = useRef(null);
   const blockerRef = useRef(null);
   const textRef = useRef(null);
+  const videoRef = useRef(null);
+  const userScrolledAwayRef = useRef(false);
+  const didAutoScrollRef = useRef(false);
 
   useEffect(() => {
     registerGsap();
@@ -48,6 +54,48 @@ export default function GdmSplatLanding() {
     };
   }, []);
 
+  useEffect(() => {
+    const video = videoRef.current;
+    const container = containerRef.current;
+    if (!video || !container) return;
+
+    const markScrolledAway = () => {
+      if (window.scrollY > window.innerHeight * HERO_STILL_VIEWING_THRESHOLD) {
+        userScrolledAwayRef.current = true;
+      }
+    };
+
+    const scrollToNextSection = () => {
+      if (didAutoScrollRef.current || userScrolledAwayRef.current) return;
+      if (window.scrollY > window.innerHeight * HERO_STILL_VIEWING_THRESHOLD) {
+        userScrolledAwayRef.current = true;
+        return;
+      }
+
+      didAutoScrollRef.current = true;
+      const nextSection = document.getElementById("projects");
+      if (nextSection) {
+        nextSection.scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+      }
+
+      const end = container.offsetTop + container.offsetHeight;
+      window.scrollTo({ top: end, behavior: "smooth" });
+    };
+
+    const onEnded = () => {
+      scrollToNextSection();
+    };
+
+    window.addEventListener("scroll", markScrolledAway, { passive: true });
+    video.addEventListener("ended", onEnded);
+
+    return () => {
+      window.removeEventListener("scroll", markScrolledAway);
+      video.removeEventListener("ended", onEnded);
+    };
+  }, []);
+
   return (
     <div ref={containerRef} className="relative z-[1] h-screen-300 w-full overflow-visible bg-[#f2f2f0] text-charcoal">
       <section
@@ -59,10 +107,11 @@ export default function GdmSplatLanding() {
       <section className="sticky top-0 flex h-screen w-full flex-col items-center justify-center overflow-hidden bg-[#f2f2f0]">
         <div className="absolute inset-0 -z-10">
           <video
+            ref={videoRef}
             autoPlay
-            loop
             muted
             playsInline
+            preload="auto"
             className="absolute inset-0 h-full w-full object-cover"
           >
             <source

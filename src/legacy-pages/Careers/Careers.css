@@ -1,11 +1,9 @@
 .careers-page {
   background-color: #fcfcfc;
   min-height: 100vh;
-  padding-top: 80px;
 }
 
 .careers-page.careers-embedded {
-  padding-top: 0;
   min-height: auto;
 }
 

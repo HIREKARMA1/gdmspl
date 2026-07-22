@@ -56,6 +56,46 @@ export async function fetchPublicProjects(params = {}) {
   };
 }
 
+export async function fetchPublicProject(slug) {
+  const { data } = await api.get(`/projects/${encodeURIComponent(slug)}`);
+  return data;
+}
+
+/** Map API project → same shape as hardcoded `projectData` items. */
+export function normalizePublicProject(project) {
+  const galleryUrls = (project.gallery || [])
+    .slice()
+    .sort((a, b) => (a.display_order ?? 0) - (b.display_order ?? 0))
+    .map((g) => (typeof g === "string" ? g : g.image_url))
+    .filter(Boolean);
+
+  const cover = project.cover_image_url || project.image || galleryUrls[0] || "";
+
+  return {
+    id: project.slug || String(project.id),
+    title: project.title || "",
+    category: project.categories || project.category || [],
+    description: project.short_description || project.description || "",
+    image: cover,
+    client: project.client || "",
+    area: project.area || "",
+    cost: project.cost || "",
+    status: project.status || "",
+    location: project.location || "",
+    scope: project.scope || "",
+    details: project.full_brief || project.details || "",
+    gallery: galleryUrls.length ? galleryUrls : cover ? [cover] : [],
+    source: "api",
+  };
+}
+
+/** Hardcoded projects first; API-only projects appended (skip slug collisions). */
+export function mergeStaticAndApiProjects(staticProjects, apiProjects) {
+  const staticIds = new Set(staticProjects.map((p) => p.id));
+  const extras = apiProjects.filter((p) => p?.id && !staticIds.has(p.id));
+  return [...staticProjects, ...extras];
+}
+
 export function emptyProjectForm() {
   return {
     title: "",

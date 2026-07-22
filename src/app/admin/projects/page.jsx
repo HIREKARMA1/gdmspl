@@ -153,34 +153,46 @@ export default function AdminProjectsPage() {
     }
   };
 
-  const handleGalleryUpload = async (file) => {
-    const validation = validateImageFile(file);
-    if (validation) {
-      setFormError(validation);
-      return;
-    }
+  const handleGalleryFilesSelected = async (fileList) => {
+    const files = Array.from(fileList || []);
+    if (!files.length) return;
+
     setGalleryUploading(true);
     setFormError("");
-    try {
-      const uploaded = await uploadProjectImage(file);
-      const display_order = form.gallery.length;
 
-      if (editingId) {
-        const added = await addProjectGalleryImage(editingId, {
-          image_url: uploaded.url,
-          display_order,
-        });
+    let nextOrder = form.gallery.length;
+    const appended = [];
+
+    try {
+      for (const file of files) {
+        const validation = validateImageFile(file);
+        if (validation) {
+          setFormError(validation);
+          break;
+        }
+
+        const uploaded = await uploadProjectImage(file);
+        const display_order = nextOrder++;
+
+        if (editingId) {
+          const added = await addProjectGalleryImage(editingId, {
+            image_url: uploaded.url,
+            display_order,
+          });
+          appended.push({
+            id: added.id,
+            image_url: added.image_url,
+            display_order: added.display_order ?? display_order,
+          });
+        } else {
+          appended.push({ image_url: uploaded.url, display_order });
+        }
+      }
+
+      if (appended.length) {
         setForm((prev) => ({
           ...prev,
-          gallery: [
-            ...prev.gallery,
-            { id: added.id, image_url: added.image_url, display_order: added.display_order },
-          ],
-        }));
-      } else {
-        setForm((prev) => ({
-          ...prev,
-          gallery: [...prev.gallery, { image_url: uploaded.url, display_order }],
+          gallery: [...prev.gallery, ...appended],
         }));
       }
     } catch (err) {
@@ -484,16 +496,17 @@ export default function AdminProjectsPage() {
             <div className="mb-2 flex items-center justify-between">
               <p className="text-xs font-medium uppercase tracking-wide text-white/50">Gallery</p>
               <label className="cursor-pointer text-xs font-medium text-accent hover:underline">
-                {galleryUploading ? "Uploading…" : "+ Add image"}
+                {galleryUploading ? "Uploading…" : "+ Add images"}
                 <input
                   type="file"
                   accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
                   className="hidden"
+                  multiple
                   disabled={galleryUploading}
                   onChange={async (e) => {
-                    const file = e.target.files?.[0];
+                    const files = e.target.files;
                     e.target.value = "";
-                    if (file) await handleGalleryUpload(file);
+                    if (files?.length) await handleGalleryFilesSelected(files);
                   }}
                 />
               </label>
@@ -519,7 +532,9 @@ export default function AdminProjectsPage() {
                 ))}
               </div>
             ) : (
-              <p className="text-xs text-white/40">Optional. Upload gallery images after cover.</p>
+              <p className="text-xs text-white/40">
+                Optional. Select multiple images at once for the project gallery.
+              </p>
             )}
           </div>
 

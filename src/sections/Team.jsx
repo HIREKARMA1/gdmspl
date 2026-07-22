@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
 import InteractiveHoverButton from "@/components/ui/InteractiveHoverButton";
 import { teamMembers as staticTeam } from "@/data/team";
-import { fetchPublicTeamMembers } from "@/services/teamMembers";
 import AppImage from "@/components/ui/AppImage";
 
 function normalizeMember(member) {
@@ -18,29 +17,12 @@ function normalizeMember(member) {
   };
 }
 
+/** Landing section: hardcoded team only. Full roster lives on /team. */
 export default function Team() {
   const router = useRouter();
   const [selectedMember, setSelectedMember] = useState(null);
-  const [members, setMembers] = useState(staticTeam.slice(0, 6).map(normalizeMember));
-  const [total, setTotal] = useState(staticTeam.length);
-
-  useEffect(() => {
-    let cancelled = false;
-    async function load() {
-      try {
-        const data = await fetchPublicTeamMembers({ featured: true, limit: 8 });
-        if (cancelled || !data.items?.length) return;
-        setMembers(data.items.map(normalizeMember));
-        setTotal(data.total || data.items.length);
-      } catch {
-        // keep static fallback
-      }
-    }
-    load();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  const members = staticTeam.map(normalizeMember);
+  const displayedMembers = members.slice(0, 6);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -58,9 +40,7 @@ export default function Team() {
     nodes.forEach((member) => observer.observe(member));
 
     return () => observer.disconnect();
-  }, [members]);
-
-  const displayedMembers = members.slice(0, 6);
+  }, []);
 
   return (
     <section id="team" className="team-section">
@@ -96,15 +76,13 @@ export default function Team() {
           ))}
         </div>
 
-        {total > 6 && (
-          <div
-            className="team-view-more"
-            onClick={() => router.push("/team/all")}
-            style={{ cursor: "pointer" }}
-          >
-            <InteractiveHoverButton>VIEW MORE</InteractiveHoverButton>
-          </div>
-        )}
+        <div
+          className="team-view-more"
+          onClick={() => router.push("/team")}
+          style={{ cursor: "pointer" }}
+        >
+          <InteractiveHoverButton>Meet our core team</InteractiveHoverButton>
+        </div>
       </div>
 
       {selectedMember && (

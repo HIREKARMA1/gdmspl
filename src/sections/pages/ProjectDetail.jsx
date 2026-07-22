@@ -6,19 +6,80 @@ import { useRouter } from "next/navigation";
 import { projectData } from "@/data/projects";
 import AppImage from "@/components/ui/AppImage";
 import {
+  fetchPublicProject,
+  fetchPublicProjects,
+  normalizePublicProject,
+} from "@/services/projects";
+import {
   ArrowLeft, MapPin, Calendar, Briefcase, IndianRupee, Maximize, X, ChevronLeft, ChevronRight,
 } from "lucide-react";
 
 export default function ProjectDetail({ projectId }) {
   const router = useRouter();
-  const project = projectData.find((p) => p.id === projectId);
+  const staticProject = projectData.find((p) => p.id === projectId);
+  const [project, setProject] = useState(staticProject || null);
+  const [loading, setLoading] = useState(!staticProject);
+  const [notFound, setNotFound] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [projectId]);
 
-  if (!project) {
+  useEffect(() => {
+    const fromStatic = projectData.find((p) => p.id === projectId);
+    if (fromStatic) {
+      setProject(fromStatic);
+      setLoading(false);
+      setNotFound(false);
+      return;
+    }
+
+    let cancelled = false;
+    setLoading(true);
+    setNotFound(false);
+    setProject(null);
+
+    async function load() {
+      try {
+        const data = await fetchPublicProject(projectId);
+        if (cancelled) return;
+        setProject(normalizePublicProject(data));
+      } catch {
+        try {
+          const list = await fetchPublicProjects({ page: 1, page_size: 100 });
+          if (cancelled) return;
+          const match = (list.items || []).find(
+            (p) => p.slug === projectId || String(p.id) === projectId
+          );
+          if (match) {
+            setProject(normalizePublicProject(match));
+          } else {
+            setNotFound(true);
+          }
+        } catch {
+          if (!cancelled) setNotFound(true);
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, [projectId]);
+
+  if (loading) {
+    return (
+      <div className="not-found flex min-h-[50vh] flex-col items-center justify-center gap-4 px-6">
+        <p className="text-sm text-[#666]">Loading project…</p>
+      </div>
+    );
+  }
+
+  if (notFound || !project) {
     return (
       <div className="not-found flex min-h-[50vh] flex-col items-center justify-center gap-4 px-6">
         <h2>Project Not Found</h2>
@@ -27,14 +88,18 @@ export default function ProjectDetail({ projectId }) {
     );
   }
 
+  const gallery = project.gallery?.length ? project.gallery : project.image ? [project.image] : [];
+
   const showNextImage = (e) => {
     e.stopPropagation();
-    setLightboxIndex((prev) => (prev + 1) % project.gallery.length);
+    if (!gallery.length) return;
+    setLightboxIndex((prev) => (prev + 1) % gallery.length);
   };
 
   const showPrevImage = (e) => {
     e.stopPropagation();
-    setLightboxIndex((prev) => (prev - 1 + project.gallery.length) % project.gallery.length);
+    if (!gallery.length) return;
+    setLightboxIndex((prev) => (prev - 1 + gallery.length) % gallery.length);
   };
 
   return (
@@ -57,9 +122,13 @@ export default function ProjectDetail({ projectId }) {
           <div>
             <div className="detail-header-top">
               <div className="detail-tags">
-                {project.scope.split(",").map((tag, i) => (
-                  <span key={i} className="detail-tag">{tag.trim()}</span>
-                ))}
+                {(project.scope || "")
+                  .split(",")
+                  .map((tag) => tag.trim())
+                  .filter(Boolean)
+                  .map((tag, i) => (
+                    <span key={i} className="detail-tag">{tag}</span>
+                  ))}
               </div>
             </div>
             <h1 className="detail-title" title={project.title}>{project.title}</h1>
@@ -95,7 +164,7 @@ export default function ProjectDetail({ projectId }) {
           <div className="detail-gallery-column">
             <h2 className="section-label">PROJECT GALLERY</h2>
             <div className="detail-gallery-grid">
-              {project.gallery.map((img, idx) => (
+              {gallery.map((img, idx) => (
                 <div
                   key={idx}
                   className="gallery-item"
@@ -119,7 +188,7 @@ export default function ProjectDetail({ projectId }) {
         </div>
       </div>
 
-      {lightboxIndex !== null && (
+      {lightboxIndex !== null && gallery.length > 0 && (
         <div className="lightbox-overlay" onClick={() => setLightboxIndex(null)}>
           <button className="lightbox-close" onClick={() => setLightboxIndex(null)} aria-label="Close lightbox">
             <X size={28} />
@@ -129,13 +198,13 @@ export default function ProjectDetail({ projectId }) {
           </button>
           <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
             <AppImage
-              src={project.gallery[lightboxIndex]}
+              src={gallery[lightboxIndex]}
               alt={`${project.title} gallery full ${lightboxIndex + 1}`}
               width={1400}
               height={900}
               className="lightbox-img !h-auto !max-h-[75vh] !w-auto !max-w-full object-contain"
             />
-            <span className="lightbox-counter">{lightboxIndex + 1} / {project.gallery.length}</span>
+            <span className="lightbox-counter">{lightboxIndex + 1} / {gallery.length}</span>
           </div>
           <button className="lightbox-next" onClick={showNextImage} aria-label="Next image">
             <ChevronRight size={36} />

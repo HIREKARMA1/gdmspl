@@ -1,15 +1,10 @@
-import SectionPageShell from "@/components/layout/SectionPageShell";
-import Team from "@/sections/Team";
+import TeamPage from "@/sections/pages/TeamPage";
 
 export const metadata = {
   title: "Team | GDMSPL",
-  description: "Meet the team behind our architectural vision.",
+  description: "Meet the full team behind our architectural vision.",
 };
 
-export default function TeamPage() {
-  return (
-    <SectionPageShell>
-      <Team />
-    </SectionPageShell>
-  );
+export default function TeamRoutePage() {
+  return <TeamPage />;
 }

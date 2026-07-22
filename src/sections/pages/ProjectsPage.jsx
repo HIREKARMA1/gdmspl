@@ -1,20 +1,50 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { projectData } from "@/data/projects";
 import ProjectCard from "@/components/ui/ProjectCard";
+import {
+  fetchPublicProjects,
+  mergeStaticAndApiProjects,
+  normalizePublicProject,
+} from "@/services/projects";
 
 export default function ProjectsPage() {
   const router = useRouter();
-  const [showAll, setShowAll] = React.useState(false);
+  const [showAll, setShowAll] = useState(false);
+  const [apiProjects, setApiProjects] = useState([]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const displayedProjects = showAll ? projectData : projectData.slice(0, 12);
+  useEffect(() => {
+    let cancelled = false;
+
+    async function load() {
+      try {
+        const data = await fetchPublicProjects({ page: 1, page_size: 100 });
+        if (cancelled || !data.items?.length) return;
+        setApiProjects(data.items.map(normalizePublicProject));
+      } catch {
+        // Keep hardcoded projects if API is unavailable
+      }
+    }
+
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const allProjects = useMemo(
+    () => mergeStaticAndApiProjects(projectData, apiProjects),
+    [apiProjects]
+  );
+
+  const displayedProjects = showAll ? allProjects : allProjects.slice(0, 12);
 
   return (
     <div className="projects-page-container">
@@ -27,7 +57,7 @@ export default function ProjectsPage() {
       <div className="container">
         <header className="projects-page-header">
           <div className="header-left">
-            <button className="back-to-home-btn" onClick={() => router.push("/projects")}>
+            <button className="back-to-home-btn" onClick={() => router.back()}>
               <ArrowLeft size={18} />
               <span>BACK TO HOME</span>
             </button>
@@ -51,7 +81,7 @@ export default function ProjectsPage() {
           ))}
         </section>
 
-        {!showAll && projectData.length > 12 && (
+        {!showAll && allProjects.length > 12 && (
           <div className="view-more-container">
             <button className="view-more-btn" onClick={() => setShowAll(true)}>
               VIEW MORE PROJECTS

@@ -46,6 +46,28 @@ export async function fetchPublicTeamMembers(params = {}) {
   };
 }
 
+export function normalizeTeamMember(member) {
+  return {
+    id: member.id,
+    name: member.name,
+    role: member.role,
+    bio: member.bio || "",
+    image: member.image_url || member.image,
+  };
+}
+
+/** Hardcoded members first; admin/API members appended (skip name collisions). */
+export function mergeStaticAndApiTeamMembers(staticMembers, apiMembers) {
+  const staticNames = new Set(
+    staticMembers.map((m) => (m.name || "").trim().toLowerCase()).filter(Boolean)
+  );
+  const extras = apiMembers.filter((m) => {
+    const name = (m.name || "").trim().toLowerCase();
+    return name && !staticNames.has(name);
+  });
+  return [...staticMembers, ...extras];
+}
+
 export function emptyTeamForm() {
   return {
     name: "",

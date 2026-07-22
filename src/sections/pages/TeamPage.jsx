@@ -1,25 +1,19 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { teamMembers as staticTeam } from "@/data/team";
-import { fetchPublicTeamMembers } from "@/services/teamMembers";
+import {
+  fetchPublicTeamMembers,
+  mergeStaticAndApiTeamMembers,
+  normalizeTeamMember,
+} from "@/services/teamMembers";
 import AppImage from "@/components/ui/AppImage";
-
-function normalizeMember(member) {
-  return {
-    id: member.id,
-    name: member.name,
-    role: member.role,
-    bio: member.bio || "",
-    image: member.image_url || member.image,
-  };
-}
 
 export default function TeamPage() {
   const router = useRouter();
-  const [members, setMembers] = useState(staticTeam.map(normalizeMember));
+  const [apiMembers, setApiMembers] = useState([]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -29,11 +23,11 @@ export default function TeamPage() {
     let cancelled = false;
     async function load() {
       try {
-        const data = await fetchPublicTeamMembers({ page: 1, page_size: 50 });
+        const data = await fetchPublicTeamMembers({ page: 1, page_size: 100 });
         if (cancelled || !data.items?.length) return;
-        setMembers(data.items.map(normalizeMember));
+        setApiMembers(data.items.map(normalizeTeamMember));
       } catch {
-        // keep static fallback
+        // Keep hardcoded members if API is unavailable
       }
     }
     load();
@@ -41,6 +35,15 @@ export default function TeamPage() {
       cancelled = true;
     };
   }, []);
+
+  const members = useMemo(
+    () =>
+      mergeStaticAndApiTeamMembers(
+        staticTeam.map(normalizeTeamMember),
+        apiMembers
+      ),
+    [apiMembers]
+  );
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -58,7 +61,7 @@ export default function TeamPage() {
 
   return (
     <div className="team-page-container">
-      <button className="back-to-home-btn" onClick={() => router.push("/team")}>
+      <button className="back-to-home-btn" onClick={() => router.push("/")}>
         <ArrowLeft size={20} />
         <span>Back to Home</span>
       </button>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense, useEffect, useRef, useState } from "react";
+import React, { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Mail, Phone, MapPin, MessageSquare, ArrowRight, Globe } from "lucide-react";
 import { DottedMap } from "@/components/magicui/dotted-map";
@@ -9,41 +9,77 @@ import {
   getEmailHref,
   getPhoneHref,
   getWebsiteHref,
-  isValidLocation,
-  locationDetails,
-  mapMarkers,
-  OFFICE_LOCATIONS,
+  isValidLocationName,
 } from "@/data/locations";
+import {
+  fetchPublicOfficeLocations,
+  getFallbackOfficeLocations,
+  normalizeOfficeLocation,
+  sortLocationsByOrder,
+  toMapMarkers,
+} from "@/services/officeLocations";
 
 function ContactContent() {
   const searchParams = useSearchParams();
-  const [selectedLocation, setSelectedLocation] = useState("Delhi");
+  const [locations, setLocations] = useState(getFallbackOfficeLocations());
+  const [selectedLocation, setSelectedLocation] = useState(
+    getFallbackOfficeLocations()[0]?.name || "Delhi"
+  );
   const [status, setStatus] = useState("idle");
   const formRef = useRef(null);
 
+  const locationNames = useMemo(() => locations.map((l) => l.name), [locations]);
+
   const selectLocation = (location) => {
-    if (!isValidLocation(location)) return;
+    if (!isValidLocationName(location, locationNames)) return;
     setSelectedLocation(location);
   };
 
   useEffect(() => {
+    let cancelled = false;
+
+    async function load() {
+      try {
+        const data = await fetchPublicOfficeLocations();
+        if (cancelled || !data.items?.length) return;
+        const normalized = sortLocationsByOrder(
+          data.items.map(normalizeOfficeLocation)
+        );
+        setLocations(normalized);
+        setSelectedLocation((prev) => {
+          const names = normalized.map((l) => l.name);
+          if (names.includes(prev)) return prev;
+          return normalized[0]?.name || prev;
+        });
+      } catch {
+        // keep static fallback
+      }
+    }
+
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
     const locationFromUrl = searchParams.get("location");
-    if (isValidLocation(locationFromUrl)) {
+    if (isValidLocationName(locationFromUrl, locationNames)) {
       setSelectedLocation(locationFromUrl);
     }
-  }, [searchParams]);
+  }, [searchParams, locationNames]);
 
   useEffect(() => {
     const handleLocationChange = (event) => {
       const location = event.detail;
-      if (isValidLocation(location)) {
+      if (isValidLocationName(location, locationNames)) {
         setSelectedLocation(location);
       }
     };
 
     window.addEventListener(CONTACT_LOCATION_EVENT, handleLocationChange);
     return () => window.removeEventListener(CONTACT_LOCATION_EVENT, handleLocationChange);
-  }, []);
+  }, [locationNames]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -54,7 +90,19 @@ function ContactContent() {
     }, 1500);
   };
 
-  const currentDetails = locationDetails[selectedLocation];
+  const currentDetails =
+    locations.find((l) => l.name === selectedLocation) || locations[0];
+  const mapMarkers = toMapMarkers(locations);
+
+  if (!currentDetails) {
+    return (
+      <section id="contact" className="contact-section">
+        <div className="container py-20 text-center text-sm text-[#666]">
+          No office locations published yet.
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="contact" className="contact-section">
@@ -72,7 +120,6 @@ function ContactContent() {
                 Let&apos;s Build <span>Something Extraordinary</span>
               </h2>
               <p className="section-subtitle">
-                Whether you&apos;re planning a residential masterpiece or a commercial landmark, our team is ready to bring your vision to life.
                 Whether you&apos;re planning a residential masterpiece or a commercial landmark, our team is ready to bring your vision to life.
               </p>
             </div>
@@ -133,21 +180,21 @@ function ContactContent() {
             </div>
 
             <div className="location-chips">
-              {OFFICE_LOCATIONS.map((location) => (
+              {locations.map((location) => (
                 <button
-                  key={location}
+                  key={location.id || location.name}
                   type="button"
-                  className={`location-chip ${selectedLocation === location ? "active" : ""}`}
-                  onClick={() => selectLocation(location)}
+                  className={`location-chip ${selectedLocation === location.name ? "active" : ""}`}
+                  onClick={() => selectLocation(location.name)}
                 >
-                  {location}
+                  {location.name}
                 </button>
               ))}
             </div>
 
             <div className="contact-details">
               <a
-                href={currentDetails.mapUrl}
+                href={currentDetails.mapUrl || "#"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="detail-item detail-item-link"
@@ -184,7 +231,6 @@ function ContactContent() {
                   <p>{currentDetails.website}</p>
                 </div>
               </a>
-             
             </div>
           </div>
 

@@ -1,17 +1,7 @@
-export const OFFICE_LOCATIONS = ["Delhi", "Mumbai", "Nepal", "Muscat"];
+export const FALLBACK_OFFICE_LOCATIONS = ["Delhi", "Mumbai", "Nepal", "Muscat"];
 
-const WEBSITE_DISPLAY = "www.gdmspl.com";
-const WEBSITE_URL = "https://www.gdmspl.com";
-
-function buildMapsUrl(address) {
-  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
-}
-
-function buildTelUrl(phone) {
-  const primary = phone.split("/")[0].trim();
-  const normalized = primary.replace(/[^\d+]/g, "");
-  return `tel:${normalized}`;
-}
+/** @deprecated Prefer FALLBACK_OFFICE_LOCATIONS — kept for older imports */
+export const OFFICE_LOCATIONS = FALLBACK_OFFICE_LOCATIONS;
 
 export const locationDetails = {
   Delhi: {
@@ -53,18 +43,26 @@ export const mapMarkers = [
 
 export const CONTACT_LOCATION_EVENT = "contact-location-change";
 
+export function isValidLocationName(location, allowedNames) {
+  if (!location) return false;
+  if (Array.isArray(allowedNames) && allowedNames.length) {
+    return allowedNames.includes(location);
+  }
+  return FALLBACK_OFFICE_LOCATIONS.includes(location);
+}
+
+/** @deprecated Use isValidLocationName with live location list when available */
 export function isValidLocation(location) {
-  return OFFICE_LOCATIONS.includes(location);
+  return isValidLocationName(location);
 }
 
 export function navigateToContactLocation(location) {
-  if (!isValidLocation(location)) return;
-
+  if (!location) return;
   window.location.href = `/contact?location=${encodeURIComponent(location)}`;
 }
 
 export function getPhoneHref(phone) {
-  const primary = phone.split(/[/,]/)[0].trim();
+  const primary = String(phone || "").split(/[/,]/)[0].trim();
   return `tel:${primary.replace(/[^\d+]/g, "")}`;
 }
 
@@ -73,5 +71,6 @@ export function getEmailHref(email) {
 }
 
 export function getWebsiteHref(website) {
+  if (!website) return "https://www.gdmspl.com";
   return website.startsWith("http") ? website : `https://${website}`;
 }

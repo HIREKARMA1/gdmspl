@@ -5,6 +5,11 @@ export async function fetchAdminProjectCategories() {
   return Array.isArray(data) ? data : data.items || [];
 }
 
+export async function fetchPublicProjectCategories() {
+  const { data } = await api.get("/project-categories");
+  return Array.isArray(data) ? data : data.items || [];
+}
+
 export async function createProjectCategory(payload) {
   const { data } = await api.post("/admin/project-categories", payload);
   return data;

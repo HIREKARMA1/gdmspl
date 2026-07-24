@@ -414,9 +414,40 @@ export default function AdminProjectsPage() {
             uploading={uploading}
           />
 
+          <FormField label="Hero badge tags *">
+            <FormInput
+              required
+              value={form.scope}
+              onChange={(e) => setField("scope", e.target.value)}
+              placeholder="Architecture, BIM"
+            />
+            <p className="mt-1.5 text-xs text-white/40">
+              Grey pill boxes on the project hero (like &quot;ARCHITECTURE&quot;). Separate multiple tags with commas.
+            </p>
+            {form.scope.trim() ? (
+              <div className="mt-3 flex flex-wrap gap-2">
+                {form.scope
+                  .split(",")
+                  .map((t) => t.trim())
+                  .filter(Boolean)
+                  .map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[1.2px] text-white/90"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+              </div>
+            ) : null}
+          </FormField>
+
           <div>
             <p className="mb-1.5 text-xs font-medium uppercase tracking-wide text-white/50">
-              Categories *
+              Portfolio categories *
+            </p>
+            <p className="mb-2 text-xs text-white/40">
+              Used for filtering / portfolio grouping (Architecture, BIM, etc.).
             </p>
             {categories.length ? (
               <div className="flex flex-wrap gap-3">
@@ -483,14 +514,6 @@ export default function AdminProjectsPage() {
               />
             </FormField>
           </div>
-
-          <FormField label="Scope *">
-            <FormInput
-              required
-              value={form.scope}
-              onChange={(e) => setField("scope", e.target.value)}
-            />
-          </FormField>
 
           <div>
             <div className="mb-2 flex items-center justify-between">

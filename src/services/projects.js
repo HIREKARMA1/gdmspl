@@ -61,7 +61,7 @@ export async function fetchPublicProject(slug) {
   return data;
 }
 
-/** Map API project → same shape as hardcoded `projectData` items. */
+/** Map API project → public UI shape. */
 export function normalizePublicProject(project) {
   const galleryUrls = (project.gallery || [])
     .slice()
@@ -71,10 +71,20 @@ export function normalizePublicProject(project) {
 
   const cover = project.cover_image_url || project.image || galleryUrls[0] || "";
 
+  const categories = (project.categories || project.category || [])
+    .map((c) => (typeof c === "string" ? c : c?.name))
+    .filter(Boolean);
+
+  const badge_tags = (project.scope || "")
+    .split(",")
+    .map((t) => t.trim())
+    .filter(Boolean);
+
   return {
     id: project.slug || String(project.id),
     title: project.title || "",
-    category: project.categories || project.category || [],
+    category: categories,
+    badge_tags: badge_tags.length ? badge_tags : categories.slice(0, 1),
     description: project.short_description || project.description || "",
     image: cover,
     client: project.client || "",
@@ -87,13 +97,6 @@ export function normalizePublicProject(project) {
     gallery: galleryUrls.length ? galleryUrls : cover ? [cover] : [],
     source: "api",
   };
-}
-
-/** Hardcoded projects first; API-only projects appended (skip slug collisions). */
-export function mergeStaticAndApiProjects(staticProjects, apiProjects) {
-  const staticIds = new Set(staticProjects.map((p) => p.id));
-  const extras = apiProjects.filter((p) => p?.id && !staticIds.has(p.id));
-  return [...staticProjects, ...extras];
 }
 
 export function emptyProjectForm() {

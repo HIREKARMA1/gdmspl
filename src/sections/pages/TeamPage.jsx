@@ -1,19 +1,20 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
-import { teamMembers as staticTeam } from "@/data/team";
 import {
   fetchPublicTeamMembers,
-  mergeStaticAndApiTeamMembers,
   normalizeTeamMember,
+  sortTeamMembersByOrder,
 } from "@/services/teamMembers";
 import AppImage from "@/components/ui/AppImage";
 
 export default function TeamPage() {
   const router = useRouter();
-  const [apiMembers, setApiMembers] = useState([]);
+  const [members, setMembers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -21,29 +22,31 @@ export default function TeamPage() {
 
   useEffect(() => {
     let cancelled = false;
+
     async function load() {
+      setLoading(true);
+      setError("");
       try {
         const data = await fetchPublicTeamMembers({ page: 1, page_size: 100 });
-        if (cancelled || !data.items?.length) return;
-        setApiMembers(data.items.map(normalizeTeamMember));
+        if (cancelled) return;
+        setMembers(
+          sortTeamMembersByOrder((data.items || []).map(normalizeTeamMember))
+        );
       } catch {
-        // Keep hardcoded members if API is unavailable
+        if (!cancelled) {
+          setMembers([]);
+          setError("Unable to load team members. Please try again later.");
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
       }
     }
+
     load();
     return () => {
       cancelled = true;
     };
   }, []);
-
-  const members = useMemo(
-    () =>
-      mergeStaticAndApiTeamMembers(
-        staticTeam.map(normalizeTeamMember),
-        apiMembers
-      ),
-    [apiMembers]
-  );
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -70,6 +73,20 @@ export default function TeamPage() {
         <h1>Meet our core team</h1>
         <p>The visionaries behind our architectural excellence.</p>
       </div>
+
+      {loading ? (
+        <p className="py-16 text-center text-sm text-[#666]">Loading team…</p>
+      ) : null}
+
+      {error ? (
+        <p className="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {error}
+        </p>
+      ) : null}
+
+      {!loading && !error && members.length === 0 ? (
+        <p className="py-16 text-center text-sm text-[#666]">No team members published yet.</p>
+      ) : null}
 
       <div className="team-page-list">
         {members.map((member) => (

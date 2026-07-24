@@ -1,11 +1,14 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import useSectionScroll from "@/hooks/useSectionScroll";
 import ProjectCard from "@/components/ui/ProjectCard";
 import InteractiveHoverButton from "@/components/ui/InteractiveHoverButton";
-import { projectData } from "@/data/projects";
+import {
+  fetchPublicProjects,
+  normalizePublicProject,
+} from "@/services/projects";
 
 const bentoSizes = [
   "bento-hero", "bento-standard", "bento-standard", "bento-tall",
@@ -13,17 +16,44 @@ const bentoSizes = [
   "bento-wide", "bento-standard", "bento-standard", "bento-tall",
 ];
 
+const LANDING_LIMIT = 12;
+
 export default function Projects({ standalone = false }) {
   const containerRef = useRef(null);
   const router = useRouter();
   const scrollProgress = useSectionScroll(containerRef);
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const displayItems = projectData.slice(0, 12).map((project, index) => ({
+  useEffect(() => {
+    let cancelled = false;
+
+    async function load() {
+      setLoading(true);
+      try {
+        const data = await fetchPublicProjects({ page: 1, page_size: LANDING_LIMIT });
+        if (cancelled) return;
+        const items = (data.items || []).map(normalizePublicProject).slice(0, LANDING_LIMIT);
+        setProjects(items);
+      } catch {
+        if (!cancelled) setProjects([]);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const displayItems = projects.map((project, index) => ({
     id: project.id,
     title: project.title,
-    category: "",
+    category: Array.isArray(project.category) ? project.category[0] || "" : project.category || "",
     image: project.image,
-    size: bentoSizes[index],
+    size: bentoSizes[index % bentoSizes.length],
   }));
 
   const translateX = standalone ? 0 : scrollProgress * 76;
@@ -57,8 +87,23 @@ export default function Projects({ standalone = false }) {
           className={`projects-track ${standalone ? "projects-track-standalone" : ""}`}
           style={standalone ? undefined : { transform: `translateX(-${translateX}%)` }}
         >
-          {displayItems.map((item, index) => (
-            <div key={index} className={`relative overflow-hidden rounded-xl transition-transform duration-300 hover:scale-[0.98] ${item.size}`}>
+          {loading && !displayItems.length ? (
+            <div className="flex h-[35vh] min-w-[280px] items-center justify-center px-8 text-sm text-charcoal/60">
+              Loading projects…
+            </div>
+          ) : null}
+
+          {!loading && !displayItems.length ? (
+            <div className="flex h-[35vh] min-w-[280px] items-center justify-center px-8 text-sm text-charcoal/60">
+              No published projects yet.
+            </div>
+          ) : null}
+
+          {displayItems.map((item) => (
+            <div
+              key={item.id}
+              className={`relative overflow-hidden rounded-xl transition-transform duration-300 hover:scale-[0.98] ${item.size}`}
+            >
               <ProjectCard
                 title={item.title}
                 category={item.category}

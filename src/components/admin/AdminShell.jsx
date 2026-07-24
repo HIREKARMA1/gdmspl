@@ -13,6 +13,7 @@ import {
   Tags,
   LogOut,
   Building2,
+  MapPin,
 } from "lucide-react";
 import { hydrateAuth, logout } from "@/store/slices/authSlice";
 
@@ -21,6 +22,7 @@ const navItems = [
   { href: "/admin/team", label: "Team", icon: Users },
   { href: "/admin/projects", label: "Projects", icon: FolderKanban },
   { href: "/admin/project-categories", label: "Categories", icon: Tags },
+  { href: "/admin/locations", label: "Locations", icon: MapPin },
   { href: "/admin/job-openings", label: "Job Openings", icon: Briefcase },
   { href: "/admin/applications", label: "Applications", icon: Inbox },
 ];

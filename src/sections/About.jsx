@@ -1,14 +1,42 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import aboutImg from "@/assets/About.png";
 import AppImage from "@/components/ui/AppImage";
 import { TextAnimate } from "@/components/ui/TextAnimate";
-import { OFFICE_LOCATIONS, navigateToContactLocation } from "@/data/locations";
+import { navigateToContactLocation } from "@/data/locations";
 import { gsap, registerGsap } from "@/lib/gsap";
+import {
+  fetchPublicOfficeLocations,
+  getFallbackOfficeLocations,
+  normalizeOfficeLocation,
+  sortLocationsByOrder,
+} from "@/services/officeLocations";
 
 export default function About() {
   const locationsRef = useRef(null);
+  const [locations, setLocations] = useState(getFallbackOfficeLocations());
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function load() {
+      try {
+        const data = await fetchPublicOfficeLocations();
+        if (cancelled || !data.items?.length) return;
+        setLocations(
+          sortLocationsByOrder(data.items.map(normalizeOfficeLocation))
+        );
+      } catch {
+        // keep static fallback
+      }
+    }
+
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     registerGsap();
@@ -28,7 +56,7 @@ export default function About() {
         scrollTrigger: { trigger: el, start: "top 85%", once: true },
       }
     );
-  }, []);
+  }, [locations]);
 
   return (
     <section id="about" className="relative z-10 bg-[#fcfcfc] py-32 text-charcoal">
@@ -57,7 +85,7 @@ export default function About() {
           <div className="flex flex-col gap-12">
             <div className="text-lg leading-relaxed text-charcoal">
               <TextAnimate animation="blurInUp" by="word" once className="mb-6 text-xl font-semibold text-charcoal">
-                Geometric Design is a versatile architectural and allied works' service provider with its
+                Geometric Design is a versatile architectural and allied works&apos; service provider with its
                 head office based in New Delhi, and a team of professional designers with the best
                 expertise in the field.
               </TextAnimate>
@@ -74,15 +102,15 @@ export default function About() {
                 Our Presence
               </TextAnimate>
               <div ref={locationsRef} className="flex flex-wrap gap-4 max-md:flex-col max-md:items-stretch">
-                {OFFICE_LOCATIONS.map((location) => (
+                {locations.map((location) => (
                   <button
-                    key={location}
+                    key={location.id || location.name}
                     type="button"
-                    onClick={() => navigateToContactLocation(location)}
+                    onClick={() => navigateToContactLocation(location.name)}
                     className="location-tag flex cursor-pointer items-center gap-3 rounded-full border border-accent/50 bg-[#f4f4f4] px-5 py-3 text-left text-sm font-medium text-[#444] transition-colors hover:border-accent hover:bg-white"
                   >
                     <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
-                    {location}
+                    {location.name}
                   </button>
                 ))}
               </div>

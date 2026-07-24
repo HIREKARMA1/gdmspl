@@ -163,7 +163,7 @@ export const projectData = [
     status: "2025-ongoing",
     location: "Borivalli, Mumbai (Maharashtra)",
     scope:
-      "EPC Architect, Service Integration, Structural Design, Building Information Modelling",
+      "Architecture",
     details:
       "Redevelopment of the EPFO campus at Borivali, Mumbai, comprising planning of 301 residential units across multiple typologies (Type III, IV-S, V, and VI), along with guest house facilities. The development features a high-rise tower (3 basements + ground + 37 floors with 3 podium levels) and a secondary G+4 building, inclusive of all civil works, MEP services, landscaping, and site development.",
     gallery: [epfo1, epfo2, epfo3, epfo4],
@@ -199,7 +199,7 @@ export const projectData = [
     status: "2025-ongoing",
     location: "Kheora Banger, Kanpur (Uttar Pradesh).",
     scope:
-      "EPC Architect, Service Integration, Structural Design, Building Information Modelling",
+      "Architecture",
     details:
       "Development of the Income Tax Headquarters at Kheora Bangar, comprising a modern administrative building with two basement levels for multi-level parking and an auditorium. The project also includes 110 residential units (Type II, III, and IV) and an MSTU facility, planned as an integrated institutional campus with supporting infrastructure and landscaped spaces.",
     gallery: [pkb1, pkb2, pkb3, pkb4, pkb5, pkb6],
@@ -269,7 +269,7 @@ export const projectData = [
     status: "2024-ongoing",
     location: "Khanpur Kalan, Sonipat (Haryana).",
     scope:
-      "EPC Architect, Service Integration, Structural Design, Building Information Modelling",
+      "Architecture, Service Integration, Structural Design, Building Information Modelling",
     details:
       "A medical college campus with a total built-up area of 69,139 sq m, comprising (but not limited to) a 240-bed Mother and Child Hospital, a 400-seat college building, 500-bed hostel blocks, and 250 residential units across multiple S+7 tower blocks. The project also includes external development works, services, MOT, MGPS, CSSD, medical equipment, fixed furniture, and loose furniture, among others.",
     gallery: [bps1, bps2, bps3, bps4, bps5],

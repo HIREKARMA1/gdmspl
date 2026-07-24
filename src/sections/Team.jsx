@@ -4,25 +4,46 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
 import InteractiveHoverButton from "@/components/ui/InteractiveHoverButton";
-import { teamMembers as staticTeam } from "@/data/team";
 import AppImage from "@/components/ui/AppImage";
+import {
+  fetchPublicTeamMembers,
+  normalizeTeamMember,
+  sortTeamMembersByOrder,
+} from "@/services/teamMembers";
 
-function normalizeMember(member) {
-  return {
-    id: member.id,
-    name: member.name,
-    role: member.role,
-    bio: member.bio || "",
-    image: member.image_url || member.image,
-  };
-}
+const LANDING_LIMIT = 8;
 
-/** Landing section: hardcoded team only. Full roster lives on /team. */
+/** Landing section: up to 8 API team members (by display_order). Full roster on /team. */
 export default function Team() {
   const router = useRouter();
   const [selectedMember, setSelectedMember] = useState(null);
-  const members = staticTeam.map(normalizeMember);
-  const displayedMembers = members.slice(0, 6);
+  const [members, setMembers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function load() {
+      setLoading(true);
+      try {
+        const data = await fetchPublicTeamMembers({ page: 1, page_size: 100 });
+        if (cancelled) return;
+        const sorted = sortTeamMembersByOrder(
+          (data.items || []).map(normalizeTeamMember)
+        );
+        setMembers(sorted.slice(0, LANDING_LIMIT));
+      } catch {
+        if (!cancelled) setMembers([]);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -40,7 +61,7 @@ export default function Team() {
     nodes.forEach((member) => observer.observe(member));
 
     return () => observer.disconnect();
-  }, []);
+  }, [members]);
 
   return (
     <section id="team" className="team-section">
@@ -53,8 +74,16 @@ export default function Team() {
           </h2>
         </header>
 
+        {loading && !members.length ? (
+          <p className="py-12 text-center text-sm text-[#666]">Loading team…</p>
+        ) : null}
+
+        {!loading && !members.length ? (
+          <p className="py-12 text-center text-sm text-[#666]">No team members published yet.</p>
+        ) : null}
+
         <div className="team-grid">
-          {displayedMembers.map((member) => (
+          {members.map((member) => (
             <div key={member.id} className="team-member" onClick={() => setSelectedMember(member)}>
               <div className="member-image-wrapper">
                 <div className="member-image-container">

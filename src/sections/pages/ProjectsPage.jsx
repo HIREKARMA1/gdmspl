@@ -1,20 +1,19 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
-import { projectData } from "@/data/projects";
 import ProjectCard from "@/components/ui/ProjectCard";
 import {
   fetchPublicProjects,
-  mergeStaticAndApiProjects,
   normalizePublicProject,
 } from "@/services/projects";
 
 export default function ProjectsPage() {
   const router = useRouter();
-  const [showAll, setShowAll] = useState(false);
-  const [apiProjects, setApiProjects] = useState([]);
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -24,12 +23,19 @@ export default function ProjectsPage() {
     let cancelled = false;
 
     async function load() {
+      setLoading(true);
+      setError("");
       try {
         const data = await fetchPublicProjects({ page: 1, page_size: 100 });
-        if (cancelled || !data.items?.length) return;
-        setApiProjects(data.items.map(normalizePublicProject));
+        if (cancelled) return;
+        setProjects((data.items || []).map(normalizePublicProject));
       } catch {
-        // Keep hardcoded projects if API is unavailable
+        if (!cancelled) {
+          setProjects([]);
+          setError("Unable to load projects. Please try again later.");
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
       }
     }
 
@@ -38,13 +44,6 @@ export default function ProjectsPage() {
       cancelled = true;
     };
   }, []);
-
-  const allProjects = useMemo(
-    () => mergeStaticAndApiProjects(projectData, apiProjects),
-    [apiProjects]
-  );
-
-  const displayedProjects = showAll ? allProjects : allProjects.slice(0, 12);
 
   return (
     <div className="projects-page-container">
@@ -68,26 +67,36 @@ export default function ProjectsPage() {
           </div>
         </header>
 
+        {loading ? (
+          <p className="py-16 text-center text-sm text-[#666]">Loading projects…</p>
+        ) : null}
+
+        {error ? (
+          <p className="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            {error}
+          </p>
+        ) : null}
+
+        {!loading && !error && projects.length === 0 ? (
+          <p className="py-16 text-center text-sm text-[#666]">No published projects yet.</p>
+        ) : null}
+
         <section className="all-projects-grid">
-          {displayedProjects.map((project) => (
+          {projects.map((project) => (
             <div key={project.id} className="projects-page-item relative min-h-[280px]">
               <ProjectCard
                 title={project.title}
-                category=""
+                category={
+                  Array.isArray(project.category)
+                    ? project.category[0] || ""
+                    : project.category || ""
+                }
                 image={project.image}
                 onClick={() => router.push(`/project/${project.id}`)}
               />
             </div>
           ))}
         </section>
-
-        {!showAll && allProjects.length > 12 && (
-          <div className="view-more-container">
-            <button className="view-more-btn" onClick={() => setShowAll(true)}>
-              VIEW MORE PROJECTS
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );

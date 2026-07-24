@@ -1,12 +1,8 @@
-import { projectData } from "@/data/projects";
 import ProjectDetail from "@/sections/pages/ProjectDetail";
 
-export function generateStaticParams() {
-  return projectData.map((project) => ({ projectId: project.id }));
-}
-
-/** Allow admin/API project slugs that are not in the static list. */
+/** Project pages are loaded from the API at runtime. */
 export const dynamicParams = true;
+export const dynamic = "force-dynamic";
 
 export default async function Page({ params }) {
   const { projectId } = await params;

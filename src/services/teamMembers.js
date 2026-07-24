@@ -38,7 +38,7 @@ export async function reorderTeamMembers(items) {
 
 export async function fetchPublicTeamMembers(params = {}) {
   const { data } = await api.get("/team-members", {
-    params: { page: 1, page_size: 50, ...params },
+    params: { page: 1, page_size: 100, ...params },
   });
   return {
     items: data.items || [],
@@ -53,19 +53,18 @@ export function normalizeTeamMember(member) {
     role: member.role,
     bio: member.bio || "",
     image: member.image_url || member.image,
+    display_order: member.display_order ?? 0,
+    is_featured: member.is_featured ?? false,
   };
 }
 
-/** Hardcoded members first; admin/API members appended (skip name collisions). */
-export function mergeStaticAndApiTeamMembers(staticMembers, apiMembers) {
-  const staticNames = new Set(
-    staticMembers.map((m) => (m.name || "").trim().toLowerCase()).filter(Boolean)
-  );
-  const extras = apiMembers.filter((m) => {
-    const name = (m.name || "").trim().toLowerCase();
-    return name && !staticNames.has(name);
+/** Stable sort by admin display_order (ascending). */
+export function sortTeamMembersByOrder(members) {
+  return [...members].sort((a, b) => {
+    const orderDiff = (a.display_order ?? 0) - (b.display_order ?? 0);
+    if (orderDiff !== 0) return orderDiff;
+    return String(a.name || "").localeCompare(String(b.name || ""));
   });
-  return [...staticMembers, ...extras];
 }
 
 export function emptyTeamForm() {

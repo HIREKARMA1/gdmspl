@@ -1,13 +1,47 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Plus, Minus, Upload, Briefcase, MapPin, Clock } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
+import { Plus, Minus, Upload, Briefcase, MapPin, Clock, ArrowRight } from "lucide-react";
 import heroImg from "@/assets/updateImages/Team Discussion.png";
 import AppImage from "@/components/ui/AppImage";
 import { getApiErrorMessage } from "@/lib/apiErrors";
 import { fetchPublicJobOpenings, submitJobApplication } from "@/services/jobOpenings";
 
+const CAREER_CATEGORIES = [
+  {
+    id: "arch",
+    name: "Architects",
+    icon: "🏛️",
+    count: 3,
+    description: "Shaping the skyline with visionary concepts.",
+  },
+  {
+    id: "eng",
+    name: "PMC Roles (Project Management)",
+    icon: "🏗️",
+    count: 2,
+    description: "Ensuring seamless project execution, coordination, and delivery.",
+  },
+  {
+    id: "site",
+    name: "Administration",
+    icon: "💼",
+    count: 4,
+    description: "Managing studio operations, finance, and human resources.",
+  },
+  {
+    id: "design",
+    name: "Interior Designers",
+    icon: "🛋️",
+    count: 1,
+    description: "Crafting the intimate human experience.",
+  },
+];
+
 export default function Careers({ embedded = false }) {
+  const router = useRouter();
+  const categoriesRef = useRef(null);
   const [activeJob, setActiveJob] = useState(null);
   const [showApplyForm, setShowApplyForm] = useState(false);
   const [selectedJob, setSelectedJob] = useState(null);
@@ -50,6 +84,26 @@ export default function Careers({ embedded = false }) {
       cancelled = true;
     };
   }, []);
+
+  useEffect(() => {
+    if (!embedded) return undefined;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("revealed");
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    const cards = categoriesRef.current?.querySelectorAll(".category-card");
+    cards?.forEach((card) => observer.observe(card));
+
+    return () => observer.disconnect();
+  }, [embedded]);
 
   const handleApplyClick = (job) => {
     setSelectedJob(job);
@@ -152,17 +206,61 @@ export default function Careers({ embedded = false }) {
     }
   };
 
+  const bgImage =
+    typeof heroImg === "object" && heroImg?.src ? heroImg.src : heroImg;
+
   return (
     <div className={`careers-page ${embedded ? "careers-embedded" : ""}`} id="career">
       {!embedded && (
         <section className="careers-hero">
           <AppImage src={heroImg} alt="GDMSPL Team" fill sizes="100vw" className="hero-bg object-cover" />
           <div className="hero-content">
-            <div className="label">Careers</div>
+            <h1>Careers</h1>
             <p>Join a collective of visionaries redefining the architectural landscape.</p>
           </div>
         </section>
       )}
+
+      {embedded ? (
+        <section className="careers-categories" ref={categoriesRef}>
+          <div
+            className="categories-bg"
+            style={{ backgroundImage: `url("${bgImage}")` }}
+          />
+          <div className="categories-overlay" />
+          <div className="categories-content">
+            <div className="section-header">
+              <h2 className="section-title">Evolving Together</h2>
+              <p className="section-subtitle">
+                Discover where your expertise fits within our multidisciplinary studio.
+              </p>
+            </div>
+            <div className="categories-grid">
+              {CAREER_CATEGORIES.map((cat, index) => (
+                <button
+                  key={cat.id}
+                  type="button"
+                  className="category-card"
+                  style={{ "--delay": `${index * 0.12}s` }}
+                  onClick={() => router.push("/careers")}
+                >
+                  <span className="category-icon" aria-hidden>
+                    {cat.icon}
+                  </span>
+                  <h3>{cat.name}</h3>
+                  <p className="cat-desc">{cat.description}</p>
+                  <div className="cat-footer">
+                    <span className="open-roles">
+                      {cat.count} Open Role{cat.count === 1 ? "" : "s"}
+                    </span>
+                    <ArrowRight size={16} />
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       <section className="jobs-section">
         <div className="jobs-container">

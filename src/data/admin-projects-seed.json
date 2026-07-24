@@ -1,0 +1,711 @@
+{
+  "meta": {
+    "description": "Seed data mirrored from the old hardcoded portfolio. Create categories first, upload images in admin, then POST each project (replace cover_image_url / gallery URLs).",
+    "create_categories_first": [
+      {
+        "name": "Architecture",
+        "slug": "architecture",
+        "display_order": 0
+      },
+      {
+        "name": "BIM",
+        "slug": "bim",
+        "display_order": 1
+      },
+      {
+        "name": "Urban Design",
+        "slug": "urban-design",
+        "display_order": 2
+      },
+      {
+        "name": "Project Management",
+        "slug": "project-management",
+        "display_order": 3
+      },
+      {
+        "name": "Interiors",
+        "slug": "interiors",
+        "display_order": 4
+      },
+      {
+        "name": "Landscape",
+        "slug": "landscape",
+        "display_order": 5
+      },
+      {
+        "name": "Engineering",
+        "slug": "engineering",
+        "display_order": 6
+      },
+      {
+        "name": "Conservation and restoration",
+        "slug": "conservation-and-restoration",
+        "display_order": 7
+      },
+      {
+        "name": "Sustainable Design",
+        "slug": "sustainable-design",
+        "display_order": 8
+      }
+    ],
+    "api": {
+      "create_category": "POST /admin/project-categories",
+      "create_project": "POST /admin/projects",
+      "upload_image": "POST /admin/uploads/project-image",
+      "add_gallery": "POST /admin/projects/:id/gallery"
+    },
+    "how_to_use": [
+      "1. In Admin → Project Categories, create every entry in create_categories_first.",
+      "2. Upload project images via Admin → Projects (cover + gallery).",
+      "3. Create each project with matching fields; map category_names to category_ids from your API.",
+      "4. badge_tags / scope values become the grey pill boxes on the project hero (e.g. ARCHITECTURE)."
+    ]
+  },
+  "projects": [
+    {
+      "slug": "epfo-housing",
+      "title": "EPFO EMPLOYEE HOUSING CAMPUS",
+      "short_description": "Redevelopment of the EPFO campus at Borivali, Mumbai, comprising planning of 301 residential units.",
+      "full_brief": "Redevelopment of the EPFO campus at Borivali, Mumbai, comprising planning of 301 residential units across multiple typologies (Type III, IV-S, V, and VI), along with guest house facilities. The development features a high-rise tower (3 basements + ground + 37 floors with 3 podium levels) and a secondary G+4 building, inclusive of all civil works, MEP services, landscaping, and site development.",
+      "cover_image_url": "",
+      "client": "Central Public Works Department (CPWD)",
+      "area": "8,00,000 Sq.Ft.",
+      "cost": "3370 millions",
+      "status": "2025-ongoing",
+      "location": "Borivalli, Mumbai (Maharashtra)",
+      "scope": "Architecture",
+      "badge_tags": [
+        "Architecture"
+      ],
+      "is_published": true,
+      "display_order": 0,
+      "category_names": [
+        "Architecture",
+        "BIM"
+      ],
+      "gallery_image_count": 0,
+      "gallery": [],
+      "notes": {
+        "local_cover_asset_hint": "Previously used local asset for id \"epfo-housing\" — upload cover + 0 gallery images in admin."
+      }
+    },
+    {
+      "slug": "lakshadweep-resorts",
+      "title": "Development of Lakshadweep Islands as Eco-Tourism Resorts",
+      "short_description": "Low-impact, sustainable eco-tourism resort development across select islands in Lakshadweep.",
+      "full_brief": "Appointed as Project Architects by the Government of Lakshadweep, in collaboration with Fortress Group, the state level project management agency involved master planning and feasibility analysis for tourism development across select islands. The proposal focused on low-impact, sustainable eco-tourism—integrating resorts, recreation, and infrastructure while preserving the region’s fragile ecology. Key strategies included zoning based on carrying capacity, climate-responsive design, and minimal environmental intervention. The outcome established a clear, phased roadmap for developing a distinctive and sustainable tourism framework for the Union Territory.",
+      "cover_image_url": "",
+      "client": "Department of Tourism, Lakshdweep, India",
+      "area": "200 Hectares",
+      "cost": "2370 million",
+      "status": "2014-completed",
+      "location": "Union Terroitory of Lakshadweep",
+      "scope": "Master Planning, Feasibilty Analysis",
+      "badge_tags": [
+        "Master Planning",
+        "Feasibilty Analysis"
+      ],
+      "is_published": true,
+      "display_order": 1,
+      "category_names": [
+        "Urban Design"
+      ],
+      "gallery_image_count": 0,
+      "gallery": [],
+      "notes": {
+        "local_cover_asset_hint": "Previously used local asset for id \"lakshadweep-resorts\" — upload cover + 0 gallery images in admin."
+      }
+    },
+    {
+      "slug": "pratyaksha-kar",
+      "title": "PRATYAKSHA KAR BHAWAN, KANPUR",
+      "short_description": "Development of the Income Tax Headquarters at Kheora Bangar, Kanpur.",
+      "full_brief": "Development of the Income Tax Headquarters at Kheora Bangar, comprising a modern administrative building with two basement levels for multi-level parking and an auditorium. The project also includes 110 residential units (Type II, III, and IV) and an MSTU facility, planned as an integrated institutional campus with supporting infrastructure and landscaped spaces.",
+      "cover_image_url": "",
+      "client": "NBCC (India) Ltd.",
+      "area": "4,00,000 sq.ft.",
+      "cost": "2150 million",
+      "status": "2025-ongoing",
+      "location": "Kheora Banger, Kanpur (Uttar Pradesh).",
+      "scope": "Architecture",
+      "badge_tags": [
+        "Architecture"
+      ],
+      "is_published": true,
+      "display_order": 2,
+      "category_names": [
+        "Architecture",
+        "BIM"
+      ],
+      "gallery_image_count": 0,
+      "gallery": [],
+      "notes": {
+        "local_cover_asset_hint": "Previously used local asset for id \"pratyaksha-kar\" — upload cover + 0 gallery images in admin."
+      }
+    },
+    {
+      "slug": "central-university",
+      "title": "CENTRAL UNIVERSITY OF PUNJAB, BHATINDA",
+      "short_description": "Master planning and Phase–1 development of a 500-acre university campus at Ghudda, Bathinda.",
+      "full_brief": "Master planning and Phase–1 development of a 500-acre university campus at Ghudda, Bathinda, conceived as a large-scale, environment-responsive academic township. The project includes planning of academic, administrative, residential, and sports infrastructure integrated within a structured zoning framework and hierarchical circulation network. Phase–1 focuses on the development of core facilities including academic blocks, administrative buildings, student and faculty housing, and essential campus infrastructure. Designed as a sustainable and energy-efficient campus, the master plan adheres to GRIHA norms with extensive green cover, water management systems, and landscape integration to create a self-sufficient, future-ready institutional environment.",
+      "cover_image_url": "",
+      "client": "Central university of Punjab",
+      "area": "1,03,00,000 sq.ft.",
+      "cost": "4080 million",
+      "status": "2014-completed",
+      "location": "Bhatinda (Punjab)",
+      "scope": "Master Planning, Concept Planning, Comprehensive Detailed Designing",
+      "badge_tags": [
+        "Master Planning",
+        "Concept Planning",
+        "Comprehensive Detailed Designing"
+      ],
+      "is_published": true,
+      "display_order": 3,
+      "category_names": [
+        "Architecture"
+      ],
+      "gallery_image_count": 0,
+      "gallery": [],
+      "notes": {
+        "local_cover_asset_hint": "Previously used local asset for id \"central-university\" — upload cover + 0 gallery images in admin."
+      }
+    },
+    {
+      "slug": "gpoa2-new-delhi",
+      "title": "GENERAL POOL OFFICE AND ACCOMODATION - 2, NEW DELHI",
+      "short_description": "A multi-functional government complex integrating office spaces with residential accommodation.",
+      "full_brief": "A multi-functional government complex integrating office spaces with residential accommodation, originally conceived for the Rural and Urban Ministries and later adapted to serve the Power, Labour, and Shipping Ministries. The development comprises two basement levels and ten floors, designed with a clear segregation of public and private zones and efficient circulation systems. The project incorporates key amenities including a gym, cafeteria, CSD canteen, six conference rooms, and parking for approximately 600 cars, supported by state-of-the-art access and security systems. The architecture adopts climate-responsive strategies, rational massing, and durable materials, ensuring long-term performance while establishing a cohesive and dignified institutional presence",
+      "cover_image_url": "",
+      "client": "Central Public Works Department (CPWD)",
+      "area": "6,50,000 sq.ft.",
+      "cost": "2300 million",
+      "status": "2023-completed",
+      "location": "Central Vistas, New Delhi",
+      "scope": "Principal Monitoring Architect, Project Management",
+      "badge_tags": [
+        "Principal Monitoring Architect",
+        "Project Management"
+      ],
+      "is_published": true,
+      "display_order": 4,
+      "category_names": [
+        "Project Management"
+      ],
+      "gallery_image_count": 0,
+      "gallery": [],
+      "notes": {
+        "local_cover_asset_hint": "Previously used local asset for id \"gpoa2-new-delhi\" — upload cover + 0 gallery images in admin."
+      }
+    },
+    {
+      "slug": "delhi-haat",
+      "title": "DELHI HAAT, JANAKPURI",
+      "short_description": "A culturally responsive public marketplace reinterpreting traditional haat typologies.",
+      "full_brief": "A culturally responsive public marketplace that reinterprets traditional haat typologies through contemporary architecture. The design emphasizes pedestrian movement, climate-responsive spaces, and the use of locally inspired materials and forms. It integrates craft stalls, food courts, and performance areas to create a vibrant urban public realm rooted in cultural identity.",
+      "cover_image_url": "",
+      "client": "Delhi Toursim and Transportation Development Corporation (DTTDC)",
+      "area": "8.2 Acres",
+      "cost": "1200 million",
+      "status": "2014-completed",
+      "location": "Janakpuri, New Delhi",
+      "scope": "Principal Architect, Landscape Design",
+      "badge_tags": [
+        "Principal Architect",
+        "Landscape Design"
+      ],
+      "is_published": true,
+      "display_order": 5,
+      "category_names": [
+        "Architecture"
+      ],
+      "gallery_image_count": 0,
+      "gallery": [],
+      "notes": {
+        "local_cover_asset_hint": "Previously used local asset for id \"delhi-haat\" — upload cover + 0 gallery images in admin."
+      }
+    },
+    {
+      "slug": "bps-medical",
+      "title": "BHAGAT PHOOL SINGH GOVT. MEDICAL COLLEGE FOR WOMEN, KHANPUR KALAN",
+      "short_description": "A medical college campus comprising a total of 69,139 sqm including a 240 bedded Mother and Child Hospital.",
+      "full_brief": "A medical college campus with a total built-up area of 69,139 sq m, comprising (but not limited to) a 240-bed Mother and Child Hospital, a 400-seat college building, 500-bed hostel blocks, and 250 residential units across multiple S+7 tower blocks. The project also includes external development works, services, MOT, MGPS, CSSD, medical equipment, fixed furniture, and loose furniture, among others.",
+      "cover_image_url": "",
+      "client": "NBCC (India) Ltd.",
+      "area": "6,91,400 sq.ft.",
+      "cost": "3110 million",
+      "status": "2024-ongoing",
+      "location": "Khanpur Kalan, Sonipat (Haryana).",
+      "scope": "Architecture, Service Integration, Structural Design, Building Information Modelling",
+      "badge_tags": [
+        "Architecture",
+        "Service Integration",
+        "Structural Design",
+        "Building Information Modelling"
+      ],
+      "is_published": true,
+      "display_order": 6,
+      "category_names": [
+        "Architecture",
+        "BIM"
+      ],
+      "gallery_image_count": 0,
+      "gallery": [],
+      "notes": {
+        "local_cover_asset_hint": "Previously used local asset for id \"bps-medical\" — upload cover + 0 gallery images in admin."
+      }
+    },
+    {
+      "slug": "jodhpur-airport",
+      "title": "NEW PASSENGER TERMINAL BUILDING AT JODHPUR AIRPORT",
+      "short_description": "New terminal building at Jodhpur Airport, developed to enhance passenger capacity and operational efficiency.",
+      "full_brief": "Architectural monitoring and project management services for the new terminal building at Jodhpur Airport, developed to enhance passenger capacity and operational efficiency. The design integrates contemporary airport planning with regional architectural character, reflecting the identity of Jodhpur through its form and detailing. Our role ensured strict adherence to design intent, quality control, and seamless coordination during execution, culminating in the successful delivery of the project ahead of schedule. The result is a functional, efficient, and visually cohesive terminal aligned with modern aviation standards.",
+      "cover_image_url": "",
+      "client": "Airport Authority of India",
+      "area": "3,40,000 sq.ft.",
+      "cost": "3550 million",
+      "status": "2026-completed",
+      "location": "Jodhpur (Rajasthan)",
+      "scope": "Principal Monitoring Architect, Project Management, Structural Audit",
+      "badge_tags": [
+        "Principal Monitoring Architect",
+        "Project Management",
+        "Structural Audit"
+      ],
+      "is_published": true,
+      "display_order": 7,
+      "category_names": [
+        "Project Management"
+      ],
+      "gallery_image_count": 0,
+      "gallery": [],
+      "notes": {
+        "local_cover_asset_hint": "Previously used local asset for id \"jodhpur-airport\" — upload cover + 0 gallery images in admin."
+      }
+    },
+    {
+      "slug": "taj-safaris-suites",
+      "title": "LUXURY SUITES DESIGN AT SEVERAL LOCATIONS FOR TAJ SAFARIS",
+      "short_description": "Designed a series of luxury cottages and suites for eco-resorts across multiple national park locations.",
+      "full_brief": "Designed a series of luxury cottages and suites for eco-resorts across multiple national park locations for the Tata Group, envisioned as immersive yet low-impact hospitality experiences. The design blends a rustic, nature-responsive character with premium comfort, drawing from local vernacular architecture, materials, and craftsmanship. Advanced construction techniques and modern amenities are seamlessly integrated to ensure durability, sustainability, and a refined guest experience while remaining rooted in the ecological and cultural context of each site.",
+      "cover_image_url": "",
+      "client": "Taj Safaris",
+      "area": "multiple locations",
+      "cost": "N/A",
+      "status": "2013-completed",
+      "location": "multiple locations",
+      "scope": "Comprehensive Architectural Design, Interior Design",
+      "badge_tags": [
+        "Comprehensive Architectural Design",
+        "Interior Design"
+      ],
+      "is_published": true,
+      "display_order": 8,
+      "category_names": [
+        "Interiors"
+      ],
+      "gallery_image_count": 0,
+      "gallery": [],
+      "notes": {
+        "local_cover_asset_hint": "Previously used local asset for id \"taj-safaris-suites\" — upload cover + 0 gallery images in admin."
+      }
+    },
+    {
+      "slug": "chaudhary-farmhouse",
+      "title": "Chaudhary Farmhouse",
+      "short_description": "Development of a luxury family farmhouse set on a 4-acre plot in Chattarpur.",
+      "full_brief": "Development of a luxury family farmhouse set on a 4-acre plot in Chattarpur, with a built-up area of approximately 12,000 sq.ft. The design is anchored around a grand central foyer, creating a strong spatial axis and seamless connection between indoor and outdoor living spaces. The residence features a swimming pool, landscaped gardens, and distinctive architectural elements including elliptical columns and a domical monolithic RCC car porch. Large beamless cantilevered balcony decks (spanning up to 20 feet) enhance openness and provide expansive views, reflecting a balance of structural innovation and refined residential design.",
+      "cover_image_url": "",
+      "client": "UKCA and Partners",
+      "area": "12,000 sq.ft.",
+      "cost": "40 million",
+      "status": "2016-completed",
+      "location": "Chattarpur, New Delhi",
+      "scope": "Comprehensive Detailed Designing, Design and Build",
+      "badge_tags": [
+        "Comprehensive Detailed Designing",
+        "Design and Build"
+      ],
+      "is_published": true,
+      "display_order": 9,
+      "category_names": [
+        "Architecture"
+      ],
+      "gallery_image_count": 0,
+      "gallery": [],
+      "notes": {
+        "local_cover_asset_hint": "Previously used local asset for id \"chaudhary-farmhouse\" — upload cover + 0 gallery images in admin."
+      }
+    },
+    {
+      "slug": "jamshedpur-mall",
+      "title": "Jamshedpur Mall",
+      "short_description": "A contemporary retail development conceived as a new-age urban destination in Jamshedpur.",
+      "full_brief": "A contemporary retail development conceived as a new-age urban destination in Jamshedpur, set on a compact 1,000 sqm site with a built-up plinth area of approximately 3,500 sqm. The design maximizes visibility and spatial experience through a bold, transparent façade and vertically stacked retail environments. Envisioned as a vibrant city landmark, the mall integrates dynamic circulation, active frontage, and inviting public interfaces, positioning itself as a modern urban plaza that enhances the city’s retail and social landscape.",
+      "cover_image_url": "",
+      "client": "Mr. Dinesh Sonthalia",
+      "area": "25,000 sq.ft.",
+      "cost": "-",
+      "status": "Deffered",
+      "location": "Jamshadepur (Jharkhand)",
+      "scope": "Conceptual Design",
+      "badge_tags": [
+        "Conceptual Design"
+      ],
+      "is_published": true,
+      "display_order": 10,
+      "category_names": [
+        "Architecture"
+      ],
+      "gallery_image_count": 0,
+      "gallery": [],
+      "notes": {
+        "local_cover_asset_hint": "Previously used local asset for id \"jamshedpur-mall\" — upload cover + 0 gallery images in admin."
+      }
+    },
+    {
+      "slug": "aiims-jodhpur-trauma",
+      "title": "CRITICAL CARE HOSPITAL AND TRAUMA CENTRE AT AIIMS CAMPUS IN JODHPUR",
+      "short_description": "A G+6 healthcare facility with a 150-bedded Critical Care Block and 200-bedded Trauma & Emergency Centre.",
+      "full_brief": "A G+6 healthcare facility with a single basement, comprising a 150-bedded Critical Care Block and 200-bedded Trauma & Emergency Centre, executed in EPC (Design & Build) mode. The project integrates advanced medical infrastructure including modular OTs, MGPS, HVAC, chiller plant, fire safety, electrical and ICT systems, along with comprehensive site development and utility services. Designed to achieve a Gold Star IGBC rating, the facility emphasizes sustainability and operational efficiency. Our role as Principal Monitoring Architect and Project Management Consultant ensured quality control, coordination, and timely delivery of this complex healthcare project.",
+      "cover_image_url": "",
+      "client": "Central Public Works Department (CPWD)",
+      "area": "5,50,000 sq.ft.",
+      "cost": "3110 million",
+      "status": "2023-ONGOING",
+      "location": "Jodhpur (Rajasthan)",
+      "scope": "Principal Monitoring Architect, Project Management",
+      "badge_tags": [
+        "Principal Monitoring Architect",
+        "Project Management"
+      ],
+      "is_published": true,
+      "display_order": 11,
+      "category_names": [
+        "Project Management"
+      ],
+      "gallery_image_count": 0,
+      "gallery": [],
+      "notes": {
+        "local_cover_asset_hint": "Previously used local asset for id \"aiims-jodhpur-trauma\" — upload cover + 0 gallery images in admin."
+      }
+    },
+    {
+      "slug": "pgimer-satellite",
+      "title": "PGIMER SATELLITE CENTRE IN FEROZPUR",
+      "short_description": "Self-sufficient healthcare campus developed over a 23-acre site in Ferozpur.",
+      "full_brief": "Self-sufficient healthcare campus developed over a 23-acre site, centered around a 100-bedded, state-of-the-art multi-specialty hospital. The hospital complex includes emergency services, radiology, central labs and blood bank, O.T. suites with critical care units, OPD facilities, and IPD wards, ensuring comprehensive patient care. The campus integrates a residential precinct with staff housing (Type III, IV, V), a guest house, and a bachelor doctor hostel, along with key support infrastructure such as parking, mortuary, laundry, MGPS, solid waste management, kitchen, substations, HVAC plant, and water and sewage treatment systems. Our role as Project Monitoring and Management Consultant ensured seamless coordination, quality control, and timely execution of this integrated healthcare facility.",
+      "cover_image_url": "",
+      "client": "HLL Infra Tech Services Pvt. Ltd. (HITES)",
+      "area": "4,40,000 sq.ft.",
+      "cost": "2370 million",
+      "status": "2026-COMPLETED",
+      "location": "Ferozpur (Punjab)",
+      "scope": "Principal Monitoring Architect, Project Management",
+      "badge_tags": [
+        "Principal Monitoring Architect",
+        "Project Management"
+      ],
+      "is_published": true,
+      "display_order": 12,
+      "category_names": [
+        "Project Management"
+      ],
+      "gallery_image_count": 0,
+      "gallery": [],
+      "notes": {
+        "local_cover_asset_hint": "Previously used local asset for id \"pgimer-satellite\" — upload cover + 0 gallery images in admin."
+      }
+    },
+    {
+      "slug": "delhi-streetscaping",
+      "title": "DELHI ROADS STREETSCAPING",
+      "short_description": "Comprehensive urban planning and streetscape design for over 60 km of PWD roads across Delhi.",
+      "full_brief": "This project involved comprehensive urban planning and streetscape design for over 60 km of PWD roads across Delhi, aimed at transforming congested corridors into efficient, people-centric public spaces. The intervention focused on resolving traffic bottlenecks, improving last-mile connectivity, and enhancing overall streetscape quality. The design strategy integrated segregated carriageways, dedicated cycle tracks, organized parking, and improved pedestrian infrastructure including wider footpaths and universal accessibility. Key junctions and high-conflict zones were rationalized to ease movement and reduce congestion. Alongside mobility improvements, the project emphasized urban beautification and public realm enhancement through coordinated landscaping, street furniture, signage systems, and lighting design. Infrastructure upgrades included provisions for drainage, utilities coordination, and public amenities, ensuring long-term functionality and maintainability. The outcome establishes a cohesive and scalable framework for safe, efficient, and visually enhanced urban streets, contributing to a more sustainable and user-friendly city environment.",
+      "cover_image_url": "",
+      "client": "Public Works Department (PWD)",
+      "area": "60+kms",
+      "cost": "2000 million",
+      "status": "2017-completed",
+      "location": "New Delhi",
+      "scope": "Urban Planning, DPR Preparartion",
+      "badge_tags": [
+        "Urban Planning",
+        "DPR Preparartion"
+      ],
+      "is_published": true,
+      "display_order": 13,
+      "category_names": [
+        "Urban Design"
+      ],
+      "gallery_image_count": 0,
+      "gallery": [],
+      "notes": {
+        "local_cover_asset_hint": "Previously used local asset for id \"delhi-streetscaping\" — upload cover + 0 gallery images in admin."
+      }
+    },
+    {
+      "slug": "jama-masjid",
+      "title": "REDEVELOPMENT OF JAMA MASJID PRECINIT",
+      "short_description": "Comprehensive master planning and streetscape project for the Jama Masjid precinct.",
+      "full_brief": "A comprehensive master planning and streetscape project for the Jama Masjid precinct, focused on improving pedestrian movement, decongesting surrounding roads, and enhancing the public realm. Detailed analysis of pedestrian flows and the Meena Bazaar corridor informed strategies for organized vending, safer circulation, and better spatial clarity. The proposal integrates streetscaping elements, traffic management, and heritage-sensitive design to create a sustainable, well-structured urban environment.",
+      "cover_image_url": "",
+      "client": "Public Works Department (PWD)",
+      "area": "12.7 Hectares",
+      "cost": "N/A",
+      "status": "Ongoing",
+      "location": "New Delhi",
+      "scope": "Urban Planning, DPR Preparartion",
+      "badge_tags": [
+        "Urban Planning",
+        "DPR Preparartion"
+      ],
+      "is_published": true,
+      "display_order": 14,
+      "category_names": [
+        "Urban Design"
+      ],
+      "gallery_image_count": 0,
+      "gallery": [],
+      "notes": {
+        "local_cover_asset_hint": "Previously used local asset for id \"jama-masjid\" — upload cover + 0 gallery images in admin."
+      }
+    },
+    {
+      "slug": "shanti-kunj-guest-house",
+      "title": "PRIVATE GUEST HOUSE AT SHANTI KUNJ",
+      "short_description": "Conceived as a quiet retreat within the intensity of Delhi, designed as a place of pause and introspection.",
+      "full_brief": "Conceived as a quiet retreat within the intensity of Delhi, the guest house is designed as a place of pause, introspection, and reconnection with nature. Courtyards, gardens, and filtered light become key elements, allowing nature to permeate the built form. Earthy tones and tactile finishes reinforce warmth and simplicity, supporting stillness and well-being.",
+      "cover_image_url": "",
+      "client": "Mr. Mahajan",
+      "area": "N/A",
+      "cost": "N/A",
+      "status": "2013-completed",
+      "location": "New Delhi",
+      "scope": "Comprehensive Architectural Design, Interior Design",
+      "badge_tags": [
+        "Comprehensive Architectural Design",
+        "Interior Design"
+      ],
+      "is_published": true,
+      "display_order": 15,
+      "category_names": [
+        "Interiors"
+      ],
+      "gallery_image_count": 0,
+      "gallery": [],
+      "notes": {
+        "local_cover_asset_hint": "Previously used local asset for id \"shanti-kunj-guest-house\" — upload cover + 0 gallery images in admin."
+      }
+    },
+    {
+      "slug": "vc-camphouse",
+      "title": "VC CAMPHOUSE AT ANAND VIHAR",
+      "short_description": "Interior design of the I.P. University",
+      "full_brief": "Interior design of the I.P. University",
+      "cover_image_url": "",
+      "client": "Mr. Mahajan",
+      "area": "4000 sq.ft.",
+      "cost": "10 million",
+      "status": "2025-completed",
+      "location": "New Delhi",
+      "scope": "Comprehensive Architectural Design, Interior Design",
+      "badge_tags": [
+        "Comprehensive Architectural Design",
+        "Interior Design"
+      ],
+      "is_published": true,
+      "display_order": 16,
+      "category_names": [
+        "Interiors"
+      ],
+      "gallery_image_count": 0,
+      "gallery": [],
+      "notes": {
+        "local_cover_asset_hint": "Previously used local asset for id \"vc-camphouse\" — upload cover + 0 gallery images in admin."
+      }
+    },
+    {
+      "slug": "pdq-asia",
+      "title": "OFFICE INTERIORS FOR PDQ ASIA",
+      "short_description": "Bespoke corporate interior solutions for PDQ Asia offices.",
+      "full_brief": "Comprehensive interior design and space planning for corporate environments.",
+      "cover_image_url": "",
+      "client": "PDQ Asia",
+      "area": "N/A",
+      "cost": "N/A",
+      "status": "Completed",
+      "location": "New Delhi",
+      "scope": "Interior Design",
+      "badge_tags": [
+        "Interior Design"
+      ],
+      "is_published": true,
+      "display_order": 17,
+      "category_names": [
+        "Interiors"
+      ],
+      "gallery_image_count": 0,
+      "gallery": [],
+      "notes": {
+        "local_cover_asset_hint": "Previously used local asset for id \"pdq-asia\" — upload cover + 0 gallery images in admin."
+      }
+    },
+    {
+      "slug": "garden-of-five-senses",
+      "title": "SIXTH SENSE PARK AT GARDEN OF FIVE SENSES",
+      "short_description": "Landscape design and master planning for the iconic Garden of Five Senses.",
+      "full_brief": "Integrating natural elements and sensory experiences within a public park environment.",
+      "cover_image_url": "",
+      "client": "Delhi Tourism",
+      "area": "20 Acres",
+      "cost": "N/A",
+      "status": "Completed",
+      "location": "New Delhi",
+      "scope": "Landscape Design",
+      "badge_tags": [
+        "Landscape Design"
+      ],
+      "is_published": true,
+      "display_order": 18,
+      "category_names": [
+        "Landscape"
+      ],
+      "gallery_image_count": 0,
+      "gallery": [],
+      "notes": {
+        "local_cover_asset_hint": "Previously used local asset for id \"garden-of-five-senses\" — upload cover + 0 gallery images in admin."
+      }
+    },
+    {
+      "slug": "sasaram-toll-plaza",
+      "title": "SASARAM TOLL PLAZA",
+      "short_description": "Engineering and infrastructure design for Sasaram Toll Plaza.",
+      "full_brief": "Structural and civil engineering for critical transport infrastructure.",
+      "cover_image_url": "",
+      "client": "NHAI",
+      "area": "N/A",
+      "cost": "N/A",
+      "status": "Completed",
+      "location": "Sasaram (Bihar)",
+      "scope": "Engineering Services",
+      "badge_tags": [
+        "Engineering Services"
+      ],
+      "is_published": true,
+      "display_order": 19,
+      "category_names": [
+        "Engineering"
+      ],
+      "gallery_image_count": 0,
+      "gallery": [],
+      "notes": {
+        "local_cover_asset_hint": "Previously used local asset for id \"sasaram-toll-plaza\" — upload cover + 0 gallery images in admin."
+      }
+    },
+    {
+      "slug": "daffli-toll-plaza",
+      "title": "DAFFLI TOLL PLAZA",
+      "short_description": "Engineering and infrastructure design for Daffli Toll Plaza.",
+      "full_brief": "Structural and civil engineering for critical transport infrastructure.",
+      "cover_image_url": "",
+      "client": "NHAI",
+      "area": "N/A",
+      "cost": "N/A",
+      "status": "Completed",
+      "location": "Daffli",
+      "scope": "Engineering Services",
+      "badge_tags": [
+        "Engineering Services"
+      ],
+      "is_published": true,
+      "display_order": 20,
+      "category_names": [
+        "Engineering"
+      ],
+      "gallery_image_count": 0,
+      "gallery": [],
+      "notes": {
+        "local_cover_asset_hint": "Previously used local asset for id \"daffli-toll-plaza\" — upload cover + 0 gallery images in admin."
+      }
+    },
+    {
+      "slug": "restoration-delhi",
+      "title": "RESTORATION AND UPGRADATION OF 70+ ARCHEOLOGICAL MONUMENTS IN DELHI",
+      "short_description": "Comprehensive restoration and upgradation of over 70 archaeological monuments across Delhi.",
+      "full_brief": "This large-scale conservation project involves the meticulous restoration and structural stabilization of more than 70 historic monuments in Delhi. The scope includes heritage mapping, material analysis, and the implementation of traditional conservation techniques to preserve the city",
+      "cover_image_url": "",
+      "client": "INTACH / ASI / Delhi Govt.",
+      "area": "N/A",
+      "cost": "N/A",
+      "status": "Ongoing",
+      "location": "New Delhi",
+      "scope": "Heritage Conservation",
+      "badge_tags": [
+        "Heritage Conservation"
+      ],
+      "is_published": true,
+      "display_order": 21,
+      "category_names": [
+        "Conservation and restoration"
+      ],
+      "gallery_image_count": 0,
+      "gallery": [],
+      "notes": {
+        "local_cover_asset_hint": "Previously used local asset for id \"restoration-delhi\" — upload cover + 0 gallery images in admin."
+      }
+    },
+    {
+      "slug": "sose-mehram-nagar",
+      "title": "SCHOOL OF SPECIALIZED EXCELLENCE AT MEHRAM NAGAR",
+      "short_description": "Sustainable design and eco-friendly development for SOSE Mehram Nagar.",
+      "full_brief": "Integrating renewable energy and green building practices to design a state-of-the-art eco-friendly school.",
+      "cover_image_url": "",
+      "client": "N/A",
+      "area": "N/A",
+      "cost": "N/A",
+      "status": "Ongoing",
+      "location": "Mehram Nagar, New Delhi",
+      "scope": "Sustainable Design",
+      "badge_tags": [
+        "Sustainable Design"
+      ],
+      "is_published": true,
+      "display_order": 22,
+      "category_names": [
+        "Sustainable Design"
+      ],
+      "gallery_image_count": 0,
+      "gallery": [],
+      "notes": {
+        "local_cover_asset_hint": "Previously used local asset for id \"sose-mehram-nagar\" — upload cover + 0 gallery images in admin."
+      }
+    },
+    {
+      "slug": "ipu-auditorium",
+      "title": "AUDITORIUM AND PLACEMENT CELL AT INDRAPASTHA UNIVERSITY CAMPUS",
+      "short_description": "Development of a state-of-the-art auditorium and placement cell at the Indraprastha University campus.",
+      "full_brief": "The project involves the design and construction of a modern auditorium equipped with advanced acoustic and lighting systems, alongside a dedicated placement cell to facilitate student career services. The architecture emphasizes functional efficiency and institutional identity.",
+      "cover_image_url": "",
+      "client": "GGSIPU",
+      "area": "N/A",
+      "cost": "N/A",
+      "status": "Completed",
+      "location": "New Delhi",
+      "scope": "Comprehensive Architectural Design",
+      "badge_tags": [
+        "Comprehensive Architectural Design"
+      ],
+      "is_published": true,
+      "display_order": 23,
+      "category_names": [
+        "Sustainable Design"
+      ],
+      "gallery_image_count": 0,
+      "gallery": [],
+      "notes": {
+        "local_cover_asset_hint": "Previously used local asset for id \"ipu-auditorium\" — upload cover + 0 gallery images in admin."
+      }
+    }
+  ]
+}

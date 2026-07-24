@@ -3,27 +3,83 @@
 import { useState, useEffect, useMemo, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { categoryData } from "@/data/projects";
 import AppImage from "@/components/ui/AppImage";
 import { ArrowLeft } from "lucide-react";
+import { fetchPublicProjectCategories } from "@/services/projectCategories";
+import {
+  fetchPublicProjects,
+  normalizePublicProject,
+} from "@/services/projects";
 
 function CategoriesContent() {
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get("category");
 
-  const [selectedCategory, setSelectedCategory] = useState(
-    categoryParam || (categoryData.length > 0 ? categoryData[0].name : null)
-  );
+  const [categories, setCategories] = useState([]);
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState(categoryParam || null);
 
   useEffect(() => {
-    if (categoryParam) setSelectedCategory(categoryParam);
     window.scrollTo(0, 0);
   }, [categoryParam]);
 
-  const activeCategory = useMemo(
-    () => categoryData.find((cat) => cat.name === selectedCategory),
-    [selectedCategory]
-  );
+  useEffect(() => {
+    let cancelled = false;
+
+    async function load() {
+      setLoading(true);
+      try {
+        const [cats, projectData] = await Promise.all([
+          fetchPublicProjectCategories().catch(() => []),
+          fetchPublicProjects({ page: 1, page_size: 100 }),
+        ]);
+        if (cancelled) return;
+
+        const normalized = (projectData.items || []).map(normalizePublicProject);
+        setProjects(normalized);
+
+        let categoryNames = (cats || [])
+          .map((c) => (typeof c === "string" ? c : c.name))
+          .filter(Boolean);
+
+        if (!categoryNames.length) {
+          categoryNames = [
+            ...new Set(normalized.flatMap((p) => p.category || [])),
+          ];
+        }
+
+        setCategories(categoryNames);
+
+        const initial =
+          categoryParam && categoryNames.includes(categoryParam)
+            ? categoryParam
+            : categoryNames[0] || null;
+        setSelectedCategory(initial);
+      } catch {
+        if (!cancelled) {
+          setCategories([]);
+          setProjects([]);
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, [categoryParam]);
+
+  const filteredProjects = useMemo(() => {
+    if (!selectedCategory) return projects;
+    return projects.filter((p) =>
+      (p.category || []).some(
+        (c) => String(c).toLowerCase() === selectedCategory.toLowerCase()
+      )
+    );
+  }, [projects, selectedCategory]);
 
   return (
     <div className="categories-page">
@@ -39,31 +95,36 @@ function CategoriesContent() {
           <p className="page-subtitle">Exploring architectural excellence across diverse sectors.</p>
         </header>
 
-        <nav className="category-tabs">
-          {categoryData.map((cat) => (
-            <button
-              key={cat.name}
-              className={`category-tab ${selectedCategory === cat.name ? "active" : ""}`}
-              onClick={() => {
-                setSelectedCategory(cat.name);
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-            >
-              {cat.name}
-            </button>
-          ))}
-        </nav>
+        {loading ? (
+          <p className="py-16 text-center text-sm text-[#666]">Loading portfolio…</p>
+        ) : null}
+
+        {!loading && categories.length > 0 ? (
+          <nav className="category-tabs">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                className={`category-tab ${selectedCategory === cat ? "active" : ""}`}
+                onClick={() => {
+                  setSelectedCategory(cat);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+              >
+                {cat}
+              </button>
+            ))}
+          </nav>
+        ) : null}
 
         <section className="categories-list">
-          {activeCategory ? (
-            <div key={activeCategory.name} className="category-section">
+          {!loading && selectedCategory ? (
+            <div key={selectedCategory} className="category-section">
               <div className="category-info">
-                {/* <span className="category-index">VIEWING SECTOR</span> */}
-                <h2 className="category-name">{activeCategory.name}</h2>
+                <h2 className="category-name">{selectedCategory}</h2>
               </div>
 
               <div className="projects-grid">
-                {activeCategory.projects.map((project, pIdx) => (
+                {filteredProjects.map((project, pIdx) => (
                   <div key={project.id} className="category-project-card">
                     <div className="project-image-wrapper relative aspect-[4/3] w-full overflow-hidden">
                       <AppImage
@@ -89,12 +150,20 @@ function CategoriesContent() {
                   </div>
                 ))}
               </div>
+
+              {!filteredProjects.length ? (
+                <div className="no-projects">
+                  <p>No projects found in this category.</p>
+                </div>
+              ) : null}
             </div>
-          ) : (
+          ) : null}
+
+          {!loading && !categories.length ? (
             <div className="no-projects">
-              <p>No projects found in this category.</p>
+              <p>No published projects yet.</p>
             </div>
-          )}
+          ) : null}
         </section>
       </div>
     </div>

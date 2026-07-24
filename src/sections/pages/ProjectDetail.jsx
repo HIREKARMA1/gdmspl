@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { projectData } from "@/data/projects";
 import AppImage from "@/components/ui/AppImage";
 import {
   fetchPublicProject,
@@ -14,11 +13,22 @@ import {
   ArrowLeft, MapPin, Calendar, Briefcase, IndianRupee, Maximize, X, ChevronLeft, ChevronRight,
 } from "lucide-react";
 
+function getBadgeTags(project) {
+  if (project.badge_tags?.length) return project.badge_tags;
+  if (project.scope) {
+    return project.scope
+      .split(",")
+      .map((t) => t.trim())
+      .filter(Boolean);
+  }
+  if (Array.isArray(project.category)) return project.category;
+  return [];
+}
+
 export default function ProjectDetail({ projectId }) {
   const router = useRouter();
-  const staticProject = projectData.find((p) => p.id === projectId);
-  const [project, setProject] = useState(staticProject || null);
-  const [loading, setLoading] = useState(!staticProject);
+  const [project, setProject] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(null);
 
@@ -27,14 +37,6 @@ export default function ProjectDetail({ projectId }) {
   }, [projectId]);
 
   useEffect(() => {
-    const fromStatic = projectData.find((p) => p.id === projectId);
-    if (fromStatic) {
-      setProject(fromStatic);
-      setLoading(false);
-      setNotFound(false);
-      return;
-    }
-
     let cancelled = false;
     setLoading(true);
     setNotFound(false);
@@ -83,12 +85,13 @@ export default function ProjectDetail({ projectId }) {
     return (
       <div className="not-found flex min-h-[50vh] flex-col items-center justify-center gap-4 px-6">
         <h2>Project Not Found</h2>
-        <Link href="/projects" className="text-accent underline">Back to Portfolio</Link>
+        <Link href="/projects/all" className="text-accent underline">Back to Portfolio</Link>
       </div>
     );
   }
 
   const gallery = project.gallery?.length ? project.gallery : project.image ? [project.image] : [];
+  const badgeTags = getBadgeTags(project);
 
   const showNextImage = (e) => {
     e.stopPropagation();
@@ -122,13 +125,9 @@ export default function ProjectDetail({ projectId }) {
           <div>
             <div className="detail-header-top">
               <div className="detail-tags">
-                {(project.scope || "")
-                  .split(",")
-                  .map((tag) => tag.trim())
-                  .filter(Boolean)
-                  .map((tag, i) => (
-                    <span key={i} className="detail-tag">{tag}</span>
-                  ))}
+                {badgeTags.map((tag, i) => (
+                  <span key={`${tag}-${i}`} className="detail-tag">{tag}</span>
+                ))}
               </div>
             </div>
             <h1 className="detail-title" title={project.title}>{project.title}</h1>
